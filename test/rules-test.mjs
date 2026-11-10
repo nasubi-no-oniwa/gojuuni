@@ -14,6 +14,9 @@ ex('続けてすぐ登録はできない',await reg(U,'ABCD2346'),false);
 ex('合言葉の形がちがう',await reg('other2bbbbbbbbbbbbbbbbbb','abcd2345'),false);
 ex('同じ合言葉は上書きできない',await reg('other3cccccccccccccccccc','ABCD2345'),false);
 ex('ほかの人の名前で登録できない',await req('PATCH',P,'other4dddddddddddddddddd',{['guns/ZZZZ2345']:gun(U),['last/other4dddddddddddddddddd']:{t:TS}}),false);
+ex('2丁・持ち方・歩き・パーツつきで登録できる',await req('PATCH',P,'other6ffffffffffffffffff',{['guns/ZZZZ2347']:{...gun('other6ffffffffffffffffff'),p2:':0,0 4,0 8,0',pt:'0.1.sp,0.2.ho',pt2:'0.1.cl',g:3,mv:'0,10,-20,250'},['last/other6ffffffffffffffffff']:{t:TS}}),true);
+ex('持ち方は0〜3',await req('PATCH',P,'other7ggggggggggggggggggg',{['guns/ZZZZ2348']:{...gun('other7ggggggggggggggggggg'),g:4},['last/other7ggggggggggggggggggg']:{t:TS}}),false);
+ex('歩きの記録は数字だけ',await req('PATCH',P,'other8hhhhhhhhhhhhhhhhhhh',{['guns/ZZZZ2349']:{...gun('other8hhhhhhhhhhhhhhhhhhh'),mv:'1,a'},['last/other8hhhhhhhhhhhhhhhhhhh']:{t:TS}}),false);
 ex('撃つ数は3つまで',await req('PATCH',P,'other5eeeeeeeeeeeeeeeeee',{['guns/ZZZZ2346']:{...gun('other5eeeeeeeeeeeeeeeeee'),sh:'1,2,3,4'},['last/other5eeeeeeeeeeeeeeeeee']:{t:TS}}),false);
 // 結果
 const play=(uid,h,c,code='ABCD2345',extra)=>{const na=(c?c.a:0)+1,nh=(c?c.h:0)+h,D=Math.max(1,na-nh);const k=na>=10?Math.floor(nh*1000/D):-1;return req('PATCH',P,uid,{['res/'+code+'/'+uid]:{h,t:TS},['cnt/'+code]:{a:na,h:nh,k,n:'テスト銃',f:'b2l1',...(extra||{})}});};
