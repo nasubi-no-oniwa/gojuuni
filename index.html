@@ -44,6 +44,17 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family
 .btns{display:flex;gap:7px;width:min(96vw,460px)}
 .btns button,.tbtn{flex:1;padding:11px 4px;border:none;border-radius:12px;font-size:15px;font-weight:900;font-family:inherit;background:#fff;color:var(--ink);border:3px solid var(--ink);cursor:pointer;box-shadow:0 3px 0 #0003}
 .btns button.go{background:var(--accent);color:#fff}
+#manPanel{z-index:14}
+.card.man{max-width:460px;text-align:left;display:flex;flex-direction:column;max-height:92vh}
+.card.man h2{text-align:center}
+#manTabs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+#manTabs button{width:auto;flex:none;margin:0;padding:6px 10px;font-size:13px;background:#eee;color:var(--ink);border-radius:9px}
+#manTabs button.on{background:var(--ink);color:#fff}
+#manBody{overflow:auto;flex:1;min-height:120px;border-top:2px solid #e6dfcf;padding-top:6px;font-size:13.5px;line-height:1.65;color:#2b2b2b}
+#manBody h3{margin:4px 0 6px;font-size:17px}
+#manBody ul{margin:0;padding-left:1.2em}#manBody li{margin:5px 0}
+.toprow{display:flex;gap:8px;align-items:center;pointer-events:auto}
+#dMan{border:3px solid var(--ink);border-radius:12px;background:#fff7d6;font-family:inherit;font-weight:900;font-size:14px;padding:6px 12px;color:var(--ink)}
 .vtabs{display:flex;gap:0;border:3px solid var(--ink);border-radius:12px;overflow:hidden;pointer-events:auto;background:#fff}
 .vtabs button{border:none;background:#fff;font-family:inherit;font-weight:900;font-size:14px;padding:7px 16px;color:var(--ink)}
 .vtabs button.on{background:var(--ink);color:#fff}
@@ -130,7 +141,7 @@ var was={};setInterval(function(){try{var any=false;for(var i=0;i<IDS.length;i++
 
 <!-- 銃身を描く -->
 <div class="bar" id="dTop" hidden>
- <div class="vtabs"><button id="vSide"></button><button id="vTop"></button></div>
+ <div class="toprow"><div class="vtabs"><button id="vSide"></button><button id="vTop"></button></div><button id="dMan"></button></div>
  <div id="inkWrap"><div id="inkBar"></div></div>
  <div id="inkTx"></div>
  <div id="stats"></div>
@@ -141,6 +152,7 @@ var was={};setInterval(function(){try{var any=false;for(var i=0;i<IDS.length;i++
  <div class="tools sub" id="subRow"></div>
  <div class="btns"><button id="dUndo"></button><button id="dClear"></button><button id="dBack"></button><button class="go" id="dNext"></button></div>
 </div>
+<div class="panel" id="manPanel" hidden><div class="card man"><h2 id="manTitle"></h2><div id="manTabs"></div><div id="manBody"></div><button class="sub" id="manClose"></button></div></div>
 <div class="panel" id="askPanel" hidden><div class="card"><h2 id="askQ"></h2><p class="c" id="askS"></p><button class="or" id="askA"></button><button id="askB"></button><button class="sub" id="askC" hidden></button></div></div>
 
 <!-- 試し撃ち・よける -->
@@ -161,7 +173,7 @@ var was={};setInterval(function(){try{var any=false;for(var i=0;i<IDS.length;i++
    <button class="sub" id="bRandom"></button>
    <p class="note" id="tMsg"></p>
   </div>
-  <button class="sub" id="bRank"></button>
+  <div class="row"><button class="sub" id="bRank"></button><button class="sub" id="bMan"></button></div>
   <div id="langs"></div>
  </div>
 </div>
@@ -243,7 +255,7 @@ const cleanCode=s=>String(s||'').toUpperCase().replace(/O/g,'0').replace(/[IL]/g
 
 // ===== ことば =====
 const TX={
-ja:{title:'ごジュウに',
+ja:{title:'ごジュウに',man:'📖説明書',close:'閉じる',readMan:'📖説明書を読む',
  mDraw:'✏️描く',mBend:'✋曲げる',mPart:'🔩パーツ',vSide:'横から',vTop:'上から',tapSw:'押すと切りかえ',toTarget:'的',needBarrel:'銃身の上を押してね',partMax:'パーツは8個まで',
  handR:'🔫右手',handL:'🔫左手',handRT:'右手の銃を描きます',handLT:'左手の銃を描きます（描くと2丁拳銃になる）',g0:'🤚片手',g1:'🙌頭の上',g2:'🦵股の下',g3:'🔙背中ごし',
  w0:'細い',w1:'ふつう',w2:'太い',w3:'極太',p_sp:'バネ',p_ic:'氷',p_pw:'火薬',p_cl:'分身',p_ho:'穴',
@@ -277,7 +289,7 @@ ja:{title:'ごジュウに',
  making:'動画を作っています…',vfail:'この端末では動画を作れませんでした',vmade:'「共有する」からXアプリを選ぶと、動画つきで投稿できます',shareHint:'保存してからXに投稿してください',vShare:'共有する（Xアプリへ）',vSave:'保存する',vX:'Xに投稿（文だけ）',
  nk:{b7:'七つ首',b4:'千手',b2:'二股',cl:'無限回廊',sp:'渦巻き',l3:'三重ばね',l1:'ばね',wv:'うねり',cn:'カクカク',up:'山なり',dn:'跳ね返り',cv:'曲がり',lg:'長すぎる',sh:'ふつうの',st:'まっすぐ',tw:'ねじれ',sd:'横向き',ho:'穴あき',fx:'極太',dw:'二丁',oh:'頭上',cr:'股下',bk:'背中撃ち',sep:'・',suf:'銃'},
  ogp2:'銃身はご自由に',ogp3:'描いて撃つ ／ 紙になってよける'},
-en:{title:'GOJUUNI',
+en:{title:'GOJUUNI',man:'📖Manual',close:'Close',readMan:'📖Read the manual',
  mDraw:'✏️Draw',mBend:'✋Bend',mPart:'🔩Parts',vSide:'Side',vTop:'Top',tapSw:'tap to switch',toTarget:'target',needBarrel:'Tap on the barrel',partMax:'Up to 8 parts',
  handR:'🔫Right',handL:'🔫Left',handRT:'Drawing the right-hand gun',handLT:'Drawing the left-hand gun (draw it to dual-wield)',g0:'🤚1 hand',g1:'🙌Overhead',g2:'🦵Crotch',g3:'🔙Backward',
  w0:'Thin',w1:'Normal',w2:'Thick',w3:'Huge',p_sp:'Spring',p_ic:'Ice',p_pw:'Powder',p_cl:'Clone',p_ho:'Hole',
@@ -311,7 +323,7 @@ en:{title:'GOJUUNI',
  making:'Making the video…',vfail:'Could not make a video on this device',vmade:'Tap "Share" and pick the X app to post with the video',shareHint:'Save it, then post on X',vShare:'Share (to the X app)',vSave:'Save',vX:'Post on X (text only)',
  nk:{b7:'Seven-Headed',b4:'Thousand-Armed',b2:'Forked',cl:'Endless Loop',sp:'Swirling',l3:'Triple-Spring',l1:'Spring',wv:'Wobbly',cn:'Zigzag',up:'Lobbing',dn:'Bouncing',cv:'Curving',lg:'Way Too Long',sh:'Plain',st:'Straight',tw:'Twisted',sd:'Sideways',ho:'Leaky',fx:'Huge',dw:'Dual',oh:'Overhead',cr:'Crotch',bk:'Backwards',sep:' ',suf:' Gun'},
  ogp2:'Draw your own barrel',ogp3:'Draw & shoot / Dodge as the paper'},
-zh:{title:'ごジュウに',sub:'槍管隨你畫',
+zh:{title:'ごジュウに',sub:'槍管隨你畫',man:'📖說明書',close:'關閉',readMan:'📖看說明書',
  mDraw:'✏️畫',mBend:'✋彎',mPart:'🔩零件',vSide:'側面',vTop:'上面',tapSw:'點一下切換',toTarget:'靶',needBarrel:'請點在槍管上',partMax:'零件最多8個',
  handR:'🔫右手',handL:'🔫左手',handRT:'畫右手的槍',handLT:'畫左手的槍（畫了就是雙槍）',g0:'🤚單手',g1:'🙌頭上',g2:'🦵胯下',g3:'🔙背後',
  w0:'細',w1:'普通',w2:'粗',w3:'超粗',p_sp:'彈簧',p_ic:'冰',p_pw:'火藥',p_cl:'分身',p_ho:'洞',
@@ -345,7 +357,7 @@ zh:{title:'ごジュウに',sub:'槍管隨你畫',
  making:'影片製作中…',vfail:'這台裝置無法製作影片',vmade:'按「分享」選X應用程式，就能附影片發文',shareHint:'請先存檔再發到X',vShare:'分享（到X應用程式）',vSave:'存檔',vX:'發到X（只有文字）',
  nk:{b7:'七頭',b4:'千手',b2:'雙叉',cl:'無限迴廊',sp:'漩渦',l3:'三重彈簧',l1:'彈簧',wv:'扭動',cn:'鋸齒',up:'拋物',dn:'反彈',cv:'彎曲',lg:'過長',sh:'普通',st:'筆直',tw:'扭曲',sd:'橫向',ho:'漏洞',fx:'超粗',dw:'雙',oh:'頭上',cr:'胯下',bk:'背射',sep:'・',suf:'槍'},
  ogp2:'槍管隨你畫',ogp3:'畫了就射／當紙靶閃躲'},
-ko:{title:'ごジュウに',sub:'총신은 마음대로',
+ko:{title:'ごジュウに',sub:'총신은 마음대로',man:'📖설명서',close:'닫기',readMan:'📖설명서 읽기',
  mDraw:'✏️그리기',mBend:'✋구부리기',mPart:'🔩부품',vSide:'옆에서',vTop:'위에서',tapSw:'누르면 전환',toTarget:'과녁',needBarrel:'총신 위를 눌러 주세요',partMax:'부품은 8개까지',
  handR:'🔫오른손',handL:'🔫왼손',handRT:'오른손 총을 그립니다',handLT:'왼손 총을 그립니다 (그리면 쌍권총)',g0:'🤚한 손',g1:'🙌머리 위',g2:'🦵가랑이',g3:'🔙등 뒤로',
  w0:'가늘게',w1:'보통',w2:'굵게',w3:'초굵게',p_sp:'스프링',p_ic:'얼음',p_pw:'화약',p_cl:'분신',p_ho:'구멍',
@@ -509,10 +521,10 @@ const PANELS=['title','regPanel','resPanel','rankPanel','vidPanel'];
 function show(id){PANELS.forEach(p=>$(p).hidden=(p!==id));}
 function big(h,cls){const b=$('big');b.innerHTML=h||'';b.className=cls||'';if(h){void b.offsetWidth;b.classList.add('pop');}}
 let mode='title',mT=0;
-function hideHud(){['dTop','dBot','hudTop','tUI','ctl','quit','dc','askPanel'].forEach(i=>$(i).hidden=true);}
+function hideHud(){['dTop','dBot','hudTop','tUI','ctl','quit','dc','askPanel','manPanel'].forEach(i=>$(i).hidden=true);}
 function applyLang(){document.documentElement.lang=lang==='zh'?'zh-Hant':lang;document.title=t('title');
  $('tTitle').innerHTML=(lang==='en'?'GO<em>JUU</em>NI':'ご<em>ジュウ</em>に')+'<small>'+esc(t('sub'))+'</small>';$('tHow').innerHTML=t('how');
- const ids={tDone:'tDone',bShoot:'bShoot',tTarget:'tTarget',bCode:'bCode',bRandom:'bRandom',bRank:'bRank',dUndo:'undo',dClear:'clear',dBack:'back',mDraw:'mDraw',mBend:'mBend',mPart:'mPart',vSide:'vSide',vTop:'vTop',gReg:'reg',gX:'xGun',gCopy:'copy',gSelf:'selfTry',gRetest:'retest',gRedraw:'redraw',gTop:'top',gVid:'vid',gXf:'xRes',rAgain:'again',rNext:'next',rVid:'vid',rX:'xRes',rRank:'rank',rTop:'top',rankBack:'back',vShare:'vShare',vSave:'vSave',vX:'vX',vBack:'back',quit:'quit'};
+ const ids={bMan:'man',dMan:'man',tDone:'tDone',bShoot:'bShoot',tTarget:'tTarget',bCode:'bCode',bRandom:'bRandom',bRank:'bRank',dUndo:'undo',dClear:'clear',dBack:'back',mDraw:'mDraw',mBend:'mBend',mPart:'mPart',vSide:'vSide',vTop:'vTop',gReg:'reg',gX:'xGun',gCopy:'copy',gSelf:'selfTry',gRetest:'retest',gRedraw:'redraw',gTop:'top',gVid:'vid',gXf:'xRes',rAgain:'again',rNext:'next',rVid:'vid',rX:'xRes',rRank:'rank',rTop:'top',rankBack:'back',vShare:'vShare',vSave:'vSave',vX:'vX',vBack:'back',quit:'quit'};
  for(const k in ids)$(k).textContent=t(ids[k]);
  $('codeIn').placeholder=t('codePh');$('gNameL').textContent=t('gNameL');$('gName').placeholder=t('defName');$('gCodeL').textContent=t('codeL');
  const LB=$('langs');LB.innerHTML='';for(const [k,nm] of LANGS){const b=document.createElement('button');b.textContent=nm;if(k===lang)b.className='on';b.onclick=()=>{lang=k;ls.set('gj_lang',k);applyLang();};LB.appendChild(b);}}
@@ -576,7 +588,7 @@ function drawView(g,v,R,ds,mini){g.save();g.beginPath();g.rect(R.x,R.y,R.w,R.h);
  // 銃の口
  const [mx,my]=PL([0,0,0]);const pulse=.5+.5*Math.sin(performance.now()/220);g.strokeStyle='rgba(255,122,26,'+(.4+.5*pulse)+')';g.lineWidth=3;g.beginPath();g.arc(mx,my,ds*.07+pulse*3,0,Math.PI*2);g.stroke();g.fillStyle='#ff3b2f';g.beginPath();g.arc(mx,my,ds*.03,0,Math.PI*2);g.fill();
  // 見出し
- g.fillStyle=mini?'#555':'#2d4a6b';g.font='900 '+(mini?11:13)+'px system-ui,sans-serif';g.textAlign='left';g.fillText((v==='side'?'↔↕ ':'↔⇅ ')+t(v==='side'?'vSide':'vTop')+(mini?' ('+t('tapSw')+')':''),R.x+8,R.y+(mini?14:18));
+ if(mini){g.fillStyle='#555';g.font='900 11px system-ui,sans-serif';g.textAlign='left';g.fillText((v==='side'?'↔↕ ':'↔⇅ ')+t(v==='side'?'vSide':'vTop')+' ('+t('tapSw')+')',R.x+8,R.y+14);}
  g.restore();if(mini){g.strokeStyle='#1d1d1d';g.lineWidth=2.5;g.strokeRect(R.x,R.y,R.w,R.h);}}
 function renderDraw(){const g=DG;g.clearRect(0,0,VW,VH);g.fillStyle='#d6e6f6';g.fillRect(0,0,VW,VH);drawView(g,view,AREA,DS,false);
  if(MINI){const ov=view==='side'?'top':'side';const ds=DS*Math.min(MINI.w/AREA.w,MINI.h/AREA.h)*1.25;drawView(g,ov,MINI,ds,true);}}
@@ -638,12 +650,12 @@ $('bGrip').onclick=()=>{snap();grip=(grip+1)%4;toolsUi();renderDraw();updStats()
 $('dUndo').onclick=()=>{if(hist.length){const o=JSON.parse(hist.pop());hands=o.hands;grip=o.grip;toolsUi();renderDraw();updStats();}};
 $('dClear').onclick=()=>{if(strokesOf(hand).length||hands[hand].parts.length){snap();hands[hand]={strokes:[],parts:[]};}dmode='draw';toolsUi();renderDraw();updStats();};
 $('dBack').onclick=()=>showTitle();
-function ask(q,sub,a,b,fa,fb){const P=$('askPanel');P.hidden=false;$('askQ').textContent=q;$('askS').textContent=sub||'';$('askA').textContent=a;$('askB').textContent=b;$('askA').onclick=()=>{P.hidden=true;fa();};$('askB').onclick=()=>{P.hidden=true;fb();};}
+function ask(q,sub,a,b,fa,fb,c,fc){const P=$('askPanel');P.hidden=false;$('askQ').textContent=q;$('askS').textContent=sub||'';$('askA').textContent=a;$('askB').textContent=b;$('askC').hidden=!c;if(c){$('askC').textContent=c;$('askC').onclick=()=>fc();}$('askA').onclick=()=>{P.hidden=true;fa();};$('askB').onclick=()=>{P.hidden=true;fb();};}
 $('dNext').onclick=()=>{ac();const other=view==='side'?'top':'side';if(visited[other]){startTest();return;}
  ask(t(other==='top'?'askTop':'askSide'),t('askSub2'),t('yesDraw'),t('noTest'),()=>{setView(other);dmode='bend';toolsUi();},()=>startTest());};
 function startDraw(keep){mode='draw';hideHud();show(null);big('');if(!keep){hands=newHands();hand=0;grip=0;hist=[];visited={side:0,top:0};dmode='draw';thick=1;}
  $('dTop').hidden=$('dBot').hidden=$('dc').hidden=false;toolsUi();drawResize();updStats();
- if(!keep)ask(t('askFirst'),t('askSub1'),t('firstSide'),t('firstTop'),()=>setView('side'),()=>setView('top'));}
+ if(!keep)ask(t('askFirst'),t('askSub1'),t('firstSide'),t('firstTop'),()=>setView('side'),()=>setView('top'),t('readMan'),()=>openMan(1));}
 $('bShoot').onclick=()=>{ac();startDraw(false);};
 
 // ===== 試し撃ち・よける（1/120 秒ずつ進める。動画はこの記録から作りなおす） =====
@@ -752,6 +764,215 @@ $('rAgain').onclick=()=>{ac();startDodge(GUN);};
 $('rNext').onclick=async()=>{ac();await playRandom($('rStat'));};
 $('rTop').onclick=()=>showTitle();
 $('rX').onclick=()=>openX(t(resKind==='hit'?'postHit':'postDodge',{n:GUN.n,f:nick(GUN.f),c:GUN.code}),GAME_URL+'?c='+GUN.code);
+
+// ===== 説明書 =====
+const MAN={
+ja:[
+['遊び方',`<ul><li><b>撃つ役</b>：銃の口から先の銃身を自由に描いて、試し撃ちをする。自分に当たらず、暴発せず、1発以上が紙の的のいる所まで届けば登録できて、8文字の合言葉がもらえる</li>
+<li><b>撃たれる役</b>：射撃場の紙の的になって、だれかの銃の弾をよける。合言葉を入れるか、おまかせで選ぶ。1発でも当たったら終わり</li>
+<li>的までの距離は12m。撃つ人は手前、紙の的は奥に立っている</li>
+<li>描いた銃は、Xに投稿すると合言葉入りのリンクになる。押した人はすぐその銃でよけられる</li></ul>`],
+['描き方',`<ul><li><b>横から</b>描くと、銃身は上下に曲がる。<b>上から</b>描くと、左右に曲がる。上の「横から｜上から」か、右下の小さい図を押すと切りかわる</li>
+<li>最初にどちらから描くかを選ぶ。1つ描いて「次へ」を押すと、もう一方の向きでも描くか聞かれる。「描かない」ならそのまま試し撃ちへ</li>
+<li><b>✏️描く</b>：光っている銃の口から描くと銃身になる。銃身の先から描くと続きになり、銃身のとちゅうから描くと<b>枝分かれ</b>になる。描きはじめは、銃の口か銃身の上だけ</li>
+<li><b>✋曲げる</b>：線をつまんで動かすと、つまんだ所から前後50cmくらいが、なめらかに曲がる。銃の口のすぐ近くは動かない。枝はいっしょに動く。曲げるのにインクは使わない</li>
+<li>横から描いた線は上から見るとまっすぐなので、上から曲げると左右にも曲がる立体の銃身になる（逆も同じ）</li>
+<li><b>インク</b>は5.5m分。2丁拳銃なら2丁合わせて5.5m。太い線ほど多く使う</li>
+<li>床の下と、撃つ人の体・頭の中には描けない（線がそこで止まる）</li>
+<li>上の数字：<b>弾の速さ</b>は出口での速さ（いちばん速い弾）、<b>弾の数</b>は1回の引き金で出る弾の数、<b>出るまで</b>は引き金を引いてから最初の弾が出口を出るまでの時間</li>
+<li>「ひとつ戻す」で1つ前に、「全部消す」で今の手の銃身を全部消す</li></ul>`],
+['形と飛び方',`<ul><li><b>弾の速さ</b>：最初は時速58km。銃身1mごとに時速18km速くなる（太さで変わる）。いちばん速くて時速173km</li>
+<li><b>出口の向き</b>：銃身の最後の向きに出る</li>
+<li><b>出口のクセ</b>：最後の36cmが曲がっていると、出たあとも同じ向きに弱く曲がり続ける</li>
+<li><b>輪</b>：同じ向きに1周するごとに、時速32km速くなる。重さも25%ずつ軽くなり、まっすぐ飛ぶ（いちばん軽くて35%）</li>
+<li><b>とがった角</b>：25度より急な角を通ると遅くなる。90度で約3割、150度で約半分。時速18kmより遅くなると、弾がつまって<b>暴発</b>（試し撃ちで終わり）</li>
+<li><b>枝分かれ</b>：分かれるたびに、弾の速さが0.85倍、大きさが0.8倍になる。1回の引き金で弾は32発まで</li>
+<li><b>波</b>：曲がる向きが4回以上入れかわる線は、弾が波打って飛ぶ（ゆれ幅12〜60cm）。出る向きは線全体の向き</li>
+<li><b>渦巻き</b>：1周以上同じ向きに巻いて、中心からの距離が大きく変わる線は、弾がらせんを描いて飛ぶ（半径15〜70cm）</li>
+<li><b>出口のない輪</b>：線の終わりが自分の線から10cm以内につくと、中を3周して1周ごとに時速36km速くなり、いちばん曲がりのきつい所から突き破って出る</li>
+<li><b>合流</b>：線の終わりがほかの銃身から8cm以内だと、そちらに合流して進む</li>
+<li><b>長さ</b>：銃身が長いほど、出るまで時間がかかる。弾が透明な管の中を進むのが見える（時速72kmの弾なら1mで約0.3秒）</li>
+<li><b>真上</b>：55度より上に出た弾は空に消えて、約1.8秒後に上から落ちてくる。真上なら撃った人の上、55度なら的のあたりに落ちる</li>
+<li><b>下向き</b>：床ではねる。はねるたびに遅くなり、3回まで</li>
+<li><b>重さ</b>：弾は少しずつ落ちる。遅い弾ほど大きく落ちる</li>
+<li><b>自分に向ける</b>：撃った人の体や頭に当たるか、撃った人の後ろを通りぬけると、<b>自分を撃った</b>ことになる</li>
+<li><b>自動のねらい</b>：引き金を引いた瞬間の紙のまん中を通るように、銃が上下左右に約29度まで向きを直す（いちばん長く本体を通る弾で合わせる）。撃った人のほうへ出る銃身は直さない</li></ul>`],
+['太さ',`<ul><li>描く前に選ぶ。描いたあとの線の太さは変わらない。続きを別の太さで描くと、そこから太さが変わる</li>
+<li><b>細い</b>：弾が小さい（0.55倍）。1mごとに時速32km速くなる。インク0.6倍</li>
+<li><b>ふつう</b>：弾の大きさ1倍。1mごとに時速18km速くなる。インク1倍</li>
+<li><b>太い</b>：弾が大きい（1.6倍）。1mごとに時速4kmしか速くならない。インク1.6倍</li>
+<li><b>極太</b>：大玉（2.4倍）。1mごとに時速7km遅くなる。インク2.4倍。長く描きすぎるとつまる</li>
+<li>弾の大きさは、弾が出た銃身の太さで決まる。大きい弾ほど当たりやすい</li></ul>`],
+['パーツ',`<ul><li>「🔩パーツ」を選んで、置きたいパーツを選び、銃身の上を押す。同じ所をもう一度押すと外れる。1丁につき8個まで</li>
+<li>パーツは、そこを通る弾に1回だけ効く</li>
+<li>🌀<b>バネ</b>：時速43km速くなる</li>
+<li>🧊<b>氷</b>：速さが0.6倍になる</li>
+<li>💥<b>火薬</b>：速さが1.5倍になって、さらに時速22km速くなる</li>
+<li>👯<b>分身</b>：弾が2つに分かれて、左右に約6度ずつ開いて飛ぶ。同じ線に何個も置くと、どんどん増える</li>
+<li>🕳️<b>穴</b>：弾が1つこぼれて床を転がり、紙の足もと（台）をねらう。こぼれた弾は大きくて遅い。本体の弾は0.85倍の速さになる。撃たれる側はジャンプでよけられる</li></ul>`],
+['持ち方・2丁',`<ul><li>下の段の持ち方ボタンを押すたびに切りかわる。2丁拳銃のときは、2丁とも同じ持ち方になる</li>
+<li>🤚<b>片手</b>：胸の高さ（1.35m）で前に向ける</li>
+<li>🙌<b>頭の上</b>：頭の上（2.05m）で前に向ける。上から撃ち下ろす形になる</li>
+<li>🦵<b>股の下</b>：ひざの高さ（0.5m）で前に向ける。低い弾になる</li>
+<li>🔙<b>背中ごし</b>：肩ごしに<b>後ろ向き</b>に持つ。まっすぐ描くと後ろへ飛ぶので、U字に描いて前に戻さないと的に届かない</li>
+<li>🔫<b>右手／左手</b>：押すと描く銃が切りかわる。左手の銃を描くと<b>2丁拳銃</b>になり、引き金1回で2丁同時に撃つ。それぞれ自動でねらう。描いていない手の銃身は薄く見える（押すとその手に切りかわる）</li></ul>`],
+['試し撃ち',`<ul><li>「よーい」のあと8秒のあいだに、引き金を3回まで押せる。押したタイミングがそのまま記録され、撃たれる側でもその通りに撃つ</li>
+<li>画面の左右を押す（パソコンは ← →）と、撃つ人が左右に歩く（時速8km、左右2.6mまで）。歩き方も記録され、撃たれる側ではその通りに歩きながら撃ってくる</li>
+<li>1発以上撃ったら「これで決定」で早めに終われる</li>
+<li>試し撃ちでは紙の的はまん中に立ったまま</li>
+<li><b>登録できる条件</b>：自分に当たらない／暴発しない／1発以上が紙の的のいる所（左右3.3m・高さ3mの中）まで届く</li>
+<li>銃の名前は自分でつけられる。形から<b>二つ名</b>も自動でつく（枝の数・輪・波・渦巻き・パーツ・持ち方・2丁など）</li></ul>`],
+['よける',`<ul><li>画面の左半分を押している間は左へ、右半分なら右へ動く（時速12km、左右2.8mまで）。上にはらうとジャンプ（約1m）、下にはらうとしゃがむ（背が55%に縮む）。パソコンは矢印キー</li>
+<li>動いている間は、紙が進む向きへ45度まで回って細くなる（当たりにくくなる）</li>
+<li><b>予測線</b>：弾が出口を出る0.2秒前に、赤い線で通り道が一瞬だけ出る。枝分かれの弾は、それぞれの弾が出る0.2秒前に出る</li>
+<li>銃は、引き金を引いた瞬間の紙のまん中をねらう。引き金から弾が出るまでに動けば、よけやすい</li>
+<li>紙の形（頭・首・体）と、足もとの台に当たったら終わり。近くをかすった弾は、紙に焦げあとを残す</li></ul>`],
+['ランキング',`<ul><li>銃のK/Dで並ぶ。K/D＝当てた回数÷よけられた回数（よけられた回数が0のときは1として計算）</li>
+<li>10回以上遊ばれた銃だけが載る。100位まで</li>
+<li>記録に入るのは、その銃で1人1回目だけ。自分で作った銃は入らない</li>
+<li>ランキングの銃を押すと、その銃でよけられる</li></ul>`]],
+en:[
+['How to play',`<ul><li><b>Shooter</b>: draw the barrel freely from the muzzle and test fire. If it doesn't hit you, doesn't misfire, and at least one bullet reaches the target area, you can register it and get an 8-letter code</li>
+<li><b>Target</b>: become the paper target and dodge someone's bullets. Enter a code or pick a random gun. One hit and it's over</li>
+<li>The target is 12 m away</li>
+<li>Posting a gun on X makes a link with its code. Anyone who opens it can dodge that gun right away</li></ul>`],
+['Drawing',`<ul><li>Drawing from the <b>side</b> bends the barrel up/down. From the <b>top</b>, left/right. Switch with "Side | Top" or tap the small view</li>
+<li>Pick which view first. After "Next" you're asked whether to draw from the other view too. "Skip" goes straight to the test fire</li>
+<li><b>✏️Draw</b>: start at the glowing muzzle. Drawing from a barrel's end continues it; from the middle makes a <b>branch</b>. You can only start at the muzzle or on a barrel</li>
+<li><b>✋Bend</b>: grab the line and drag; about 50 cm around the grabbed point bends smoothly. The part near the muzzle stays put. Branches move with it. Bending uses no ink</li>
+<li>A line drawn from the side looks straight from the top, so bending it from the top makes a 3D barrel (and vice versa)</li>
+<li><b>Ink</b>: 5.5 m (shared by both guns when dual-wielding). Thicker lines use more</li>
+<li>You can't draw below the floor or inside the shooter's body/head (the line stops there)</li>
+<li>Numbers on top: <b>Speed</b> at the exit (fastest bullet), <b>Bullets</b> per trigger pull, <b>Delay</b> from trigger to the first bullet leaving the barrel</li></ul>`],
+['Shapes & flight',`<ul><li><b>Speed</b>: starts at 58 km/h and gains 18 km/h per meter of barrel (depends on thickness). Max 173 km/h</li>
+<li><b>Exit direction</b>: the bullet leaves along the barrel's last direction</li>
+<li><b>Exit curl</b>: if the last 36 cm curve, the bullet keeps curving gently the same way</li>
+<li><b>Loops</b>: each full turn adds 32 km/h and makes the bullet 25% lighter so it flies straighter (down to 35%)</li>
+<li><b>Sharp corners</b>: corners sharper than 25° slow it down: about 30% at 90°, about half at 150°. Below 18 km/h the bullet jams and the gun <b>misfires</b></li>
+<li><b>Branches</b>: each split makes bullets 0.85× as fast and 0.8× as big. Up to 32 bullets per trigger</li>
+<li><b>Waves</b>: a line that flips its bend 4+ times makes the bullet wobble (12–60 cm). It flies along the line's overall direction</li>
+<li><b>Spirals</b>: a line winding 1+ turns while its distance from the center changes a lot makes the bullet corkscrew (radius 15–70 cm)</li>
+<li><b>Closed loop</b>: if the end touches its own line (within 10 cm), the bullet circles 3 times, +36 km/h each, then bursts out at the sharpest bend</li>
+<li><b>Merging</b>: if the end is within 8 cm of another barrel, the bullet joins it</li>
+<li><b>Length</b>: longer barrels take longer to fire; you see the bullet travel through the clear tube (about 0.3 s per meter at 72 km/h)</li>
+<li><b>Straight up</b>: bullets leaving more than 55° up vanish into the sky and fall ~1.8 s later. Straight up lands on the shooter, 55° near the target</li>
+<li><b>Downward</b>: bounces on the floor up to 3 times, slowing each time</li>
+<li><b>Gravity</b>: bullets drop slowly; slower ones drop more</li>
+<li><b>Self</b>: touching the shooter's body/head, or passing behind the shooter, means you <b>shot yourself</b></li>
+<li><b>Auto-aim</b>: at the trigger pull, the gun turns up to ~29° so the main bullet passes the paper's center. Barrels pointing back at the shooter are not corrected</li></ul>`],
+['Thickness',`<ul><li>Choose before drawing. Drawing a continuation with another thickness changes it from there</li>
+<li><b>Thin</b>: small bullets (0.55×), +32 km/h per m, ink 0.6×</li>
+<li><b>Normal</b>: bullets 1×, +18 km/h per m, ink 1×</li>
+<li><b>Thick</b>: big bullets (1.6×), only +4 km/h per m, ink 1.6×</li>
+<li><b>Huge</b>: giant balls (2.4×), −7 km/h per m, ink 2.4×. Too long and it jams</li>
+<li>Bullet size comes from the barrel it exits. Bigger bullets hit more easily</li></ul>`],
+['Parts',`<ul><li>Pick "🔩Parts", choose one, and tap the barrel. Tap the same spot again to remove. Up to 8 per gun</li>
+<li>Each part works once on each bullet passing it</li>
+<li>🌀<b>Spring</b>: +43 km/h</li><li>🧊<b>Ice</b>: speed ×0.6</li><li>💥<b>Powder</b>: speed ×1.5, then +22 km/h</li>
+<li>👯<b>Clone</b>: the bullet splits in two, spreading ~6° left and right. Stack them to multiply</li>
+<li>🕳️<b>Hole</b>: one bullet leaks out and rolls on the floor toward the paper's stand. It's big and slow. The main bullet slows to 0.85×. Targets can jump over it</li></ul>`],
+['Grips & dual',`<ul><li>Tap the grip button to cycle. Dual guns share the grip</li>
+<li>🤚<b>1 hand</b>: chest height (1.35 m), facing forward</li>
+<li>🙌<b>Overhead</b>: above the head (2.05 m), shooting downward</li>
+<li>🦵<b>Crotch</b>: knee height (0.5 m), low bullets</li>
+<li>🔙<b>Backward</b>: held over the shoulder facing <b>backward</b>. A straight barrel shoots behind you; draw a U-turn to reach the target</li>
+<li>🔫<b>Right/Left</b>: switches which gun you draw. Drawing a left gun makes <b>dual guns</b>: one trigger fires both, each aims on its own</li></ul>`],
+['Test fire',`<ul><li>After "Ready" you have 8 s to press the trigger up to 3 times. Your timing is recorded and replayed against targets</li>
+<li>Hold the left/right side (PC: ← →) to walk (8 km/h, up to 2.6 m). Your walk is recorded too</li>
+<li>After one shot, "Done" ends early. The paper stays centered in the test</li>
+<li><b>To register</b>: no self-hit, no misfire, at least one bullet reaching the target area (3.3 m each side, 3 m high)</li>
+<li>Name your gun. A <b>nickname</b> is added from its shape (branches, loops, waves, spirals, parts, grip, dual…)</li></ul>`],
+['Dodging',`<ul><li>Hold the left/right half to move (12 km/h, up to 2.8 m). Swipe up to jump (~1 m), down to crouch (height 55%). PC: arrow keys</li>
+<li>While moving, the paper turns up to 45° and gets thinner</li>
+<li><b>Prediction line</b>: a red line flashes 0.2 s before each bullet leaves the barrel</li>
+<li>The gun aims at the paper's center at the trigger pull. Move between the trigger and the shot</li>
+<li>Getting hit on the paper (head, neck, body) or its stand ends it. Near misses leave scorch marks</li></ul>`],
+['Ranking',`<ul><li>Guns ranked by K/D = hits ÷ dodges (0 dodges counts as 1)</li><li>Only guns played 10+ times, top 100</li>
+<li>Only each person's first try per gun counts. Your own guns don't count</li><li>Tap a gun in the ranking to dodge it</li></ul>`]],
+zh:[
+['玩法',`<ul><li><b>射擊方</b>：從槍口自由畫出槍管後試射。沒打到自己、沒走火、至少1發到達紙靶範圍，就能登錄並拿到8個字的暗號</li>
+<li><b>被射方</b>：變成紙靶閃躲別人的子彈。輸入暗號或隨機選槍。被打中1發就結束</li><li>靶子距離12公尺</li><li>把槍發到X會變成帶暗號的連結，點開就能馬上躲那把槍</li></ul>`],
+['畫法',`<ul><li>從<b>側面</b>畫，槍管上下彎；從<b>上面</b>畫，左右彎。用上方「側面｜上面」或點右下小圖切換</li>
+<li>先選從哪邊畫。畫好按「下一步」會問要不要從另一邊畫。選「不畫」直接試射</li>
+<li><b>✏️畫</b>：從發光的槍口開始。從槍管末端畫是延長，從中間畫是<b>分岔</b></li>
+<li><b>✋彎</b>：抓住線拖動，周圍約50公分會滑順地彎曲。槍口附近不動，分岔一起動。彎曲不用墨水</li>
+<li>側面畫的線從上面看是直的，從上面彎就成了立體槍管（反過來也一樣）</li>
+<li><b>墨水</b>5.5公尺，雙槍時兩把合計。越粗用越多</li><li>不能畫在地板下和射擊者身體裡</li>
+<li>上方數字：<b>彈速</b>（最快的子彈）、<b>子彈數</b>（扣一次扳機）、<b>射出前</b>（到第一發離開槍口的時間）</li></ul>`],
+['形狀與飛法',`<ul><li><b>彈速</b>：一開始時速58km，槍管每1公尺加快時速18km（依粗細不同），最快時速173km</li>
+<li><b>出口方向</b>：沿槍管最後的方向射出</li><li><b>出口習慣</b>：最後36公分彎曲的話，飛出後也會往同方向微彎</li>
+<li><b>圈</b>：同方向繞1圈加快時速32km，也變輕25%、飛得更直（最輕35%）</li>
+<li><b>尖角</b>：超過25度的角會變慢，90度約慢3成、150度約一半。低於時速18km就卡住<b>走火</b></li>
+<li><b>分岔</b>：每分一次速度0.85倍、大小0.8倍。扣一次最多32發</li>
+<li><b>波浪</b>：彎曲方向交替4次以上，子彈會扭動飛行（12〜60公分）</li>
+<li><b>漩渦</b>：同方向繞1圈以上且離中心距離變化大，子彈會螺旋飛行（半徑15〜70公分）</li>
+<li><b>沒出口的圈</b>：線尾接到自己的線（10公分內），會在裡面繞3圈、每圈加快時速36km，從最彎處衝破</li>
+<li><b>合流</b>：線尾離別的槍管8公分內就會合流</li><li><b>長度</b>：越長射出越慢，看得到子彈在透明管裡跑（時速72km約每公尺0.3秒）</li>
+<li><b>朝上</b>：超過55度往上的子彈消失在空中，約1.8秒後從上面掉下。正上方會掉在射擊者頭上，55度掉在靶附近</li>
+<li><b>朝下</b>：在地板反彈，每次變慢，最多3次</li><li><b>重量</b>：子彈會慢慢下墜，越慢掉越多</li>
+<li><b>對著自己</b>：碰到射擊者的身體或頭、或穿過射擊者後方，就是<b>打到自己</b></li>
+<li><b>自動瞄準</b>：扣扳機瞬間，槍會上下左右最多轉約29度，讓主子彈通過紙靶中心。朝射擊者方向的槍管不修正</li></ul>`],
+['粗細',`<ul><li>畫之前選。延長時換粗細，從那裡開始改變</li><li><b>細</b>：子彈小（0.55倍），每公尺加快時速32km，墨水0.6倍</li>
+<li><b>普通</b>：1倍，每公尺加快時速18km，墨水1倍</li><li><b>粗</b>：子彈大（1.6倍），每公尺只加快時速4km，墨水1.6倍</li>
+<li><b>超粗</b>：大球（2.4倍），每公尺變慢時速7km，墨水2.4倍，畫太長會卡住</li><li>子彈大小由射出的槍管粗細決定，越大越容易打中</li></ul>`],
+['零件',`<ul><li>選「🔩零件」再選種類，點槍管放上。再點一次拿掉。每把最多8個</li><li>每顆子彈通過時生效1次</li>
+<li>🌀<b>彈簧</b>：加快時速43km</li><li>🧊<b>冰</b>：速度0.6倍</li><li>💥<b>火藥</b>：速度1.5倍再加快時速22km</li>
+<li>👯<b>分身</b>：子彈分成2顆，左右各張開約6度</li><li>🕳️<b>洞</b>：漏出1顆子彈在地上滾，瞄準紙靶的腳（台座）。又大又慢。主子彈變0.85倍。可以跳過去</li></ul>`],
+['拿法・雙槍',`<ul><li>按拿法按鈕切換，雙槍時兩把相同</li><li>🤚<b>單手</b>：胸口高度（1.35公尺）朝前</li><li>🙌<b>頭上</b>：頭上（2.05公尺）朝前，往下射</li>
+<li>🦵<b>胯下</b>：膝蓋高度（0.5公尺），低彈道</li><li>🔙<b>背後</b>：從肩膀<b>朝後</b>拿。直直畫會往後飛，要畫U字才打得到靶</li>
+<li>🔫<b>右手／左手</b>：切換要畫的槍。畫了左手就是<b>雙槍</b>，扣一次扳機兩把同時射，各自瞄準</li></ul>`],
+['試射',`<ul><li>「預備」後8秒內最多按3次扳機。按下的時機會直接記錄，被射方也照這個時機</li>
+<li>按住畫面左右（電腦用←→）可以走動（時速8km，左右2.6公尺內），走法也會記錄</li><li>打過1發後可以按「就這樣」提早結束。試射時紙靶站在中間不動</li>
+<li><b>登錄條件</b>：沒打到自己、沒走火、至少1發到達紙靶範圍（左右3.3公尺・高3公尺）</li><li>可以自己取槍名，也會依形狀自動加上<b>稱號</b></li></ul>`],
+['閃躲',`<ul><li>按住畫面左半往左、右半往右（時速12km，左右2.8公尺內）。往上滑跳（約1公尺），往下滑蹲（身高55%）。電腦用方向鍵</li>
+<li>移動時紙靶最多轉45度變薄</li><li><b>預測線</b>：子彈離開槍口前0.2秒，紅線閃一下</li>
+<li>槍瞄準扣扳機瞬間的紙靶中心，在扣扳機到射出之間移動就容易躲</li><li>打中紙靶（頭・脖子・身體）或腳下台座就結束。擦過會留下焦痕</li></ul>`],
+['排行榜',`<ul><li>依槍的K/D排名。K/D＝命中次數÷被躲次數（0次算1）</li><li>只列被玩過10次以上的槍，前100名</li><li>每人每把槍只計第一次，自己的槍不計</li><li>點排行榜上的槍就能躲那把槍</li></ul>`]],
+ko:[
+['놀이 방법',`<ul><li><b>쏘는 쪽</b>: 총구에서부터 총신을 자유롭게 그리고 시험 사격. 자기가 맞지 않고, 폭발하지 않고, 1발 이상 과녁 범위까지 닿으면 등록하고 8글자 암호를 받는다</li>
+<li><b>맞는 쪽</b>: 종이 과녁이 되어 누군가의 총알을 피한다. 암호를 넣거나 랜덤으로 고른다. 1발이라도 맞으면 끝</li><li>과녁까지 12m</li><li>총을 X에 올리면 암호가 들어간 링크가 되어, 누른 사람은 바로 그 총으로 피할 수 있다</li></ul>`],
+['그리는 법',`<ul><li><b>옆에서</b> 그리면 위아래로, <b>위에서</b> 그리면 좌우로 휜다. 위의 「옆에서｜위에서」나 오른쪽 아래 작은 그림으로 전환</li>
+<li>먼저 어느 쪽부터 그릴지 고른다. 「다음」을 누르면 다른 방향에서도 그릴지 묻는다. 「안 그리고」면 바로 시험 사격</li>
+<li><b>✏️그리기</b>: 빛나는 총구에서 시작. 총신 끝에서 그리면 이어지고, 중간에서 그리면 <b>갈라진다</b></li>
+<li><b>✋구부리기</b>: 선을 잡고 끌면 주변 약 50cm가 부드럽게 휜다. 총구 근처는 안 움직이고, 갈래는 같이 움직인다. 잉크는 안 쓴다</li>
+<li>옆에서 그린 선은 위에서 보면 곧으므로, 위에서 구부리면 입체 총신이 된다 (반대도 같다)</li>
+<li><b>잉크</b> 5.5m, 쌍권총이면 두 자루 합쳐서. 굵을수록 많이 쓴다</li><li>바닥 아래와 쏘는 사람의 몸 안에는 그릴 수 없다</li>
+<li>위의 숫자: <b>탄속</b>(가장 빠른 총알), <b>총알 수</b>(방아쇠 1번), <b>발사까지</b>(첫 총알이 총구를 나갈 때까지)</li></ul>`],
+['모양과 날아가는 법',`<ul><li><b>탄속</b>: 처음 시속 58km, 총신 1m마다 시속 18km 빨라진다(굵기에 따라 다름). 최고 시속 173km</li>
+<li><b>출구 방향</b>: 총신 마지막 방향으로 나간다</li><li><b>출구 버릇</b>: 마지막 36cm가 휘어 있으면 나간 뒤에도 같은 쪽으로 약하게 휜다</li>
+<li><b>고리</b>: 같은 방향으로 1바퀴마다 시속 32km 빨라지고 25%씩 가벼워져 곧게 난다(최소 35%)</li>
+<li><b>뾰족한 모서리</b>: 25도보다 급하면 느려진다. 90도에 약 3할, 150도에 약 절반. 시속 18km보다 느려지면 막혀서 <b>폭발</b></li>
+<li><b>갈래</b>: 갈라질 때마다 속도 0.85배, 크기 0.8배. 방아쇠 1번에 최대 32발</li>
+<li><b>물결</b>: 휘는 방향이 4번 이상 바뀌면 총알이 꿀렁거리며 난다(12〜60cm)</li>
+<li><b>소용돌이</b>: 같은 방향으로 1바퀴 이상 감고 중심 거리가 크게 바뀌면 나선으로 난다(반경 15〜70cm)</li>
+<li><b>출구 없는 고리</b>: 선 끝이 자기 선 10cm 안에 붙으면 안에서 3바퀴 돌며 매번 시속 36km 빨라지고, 가장 많이 휜 곳을 뚫고 나간다</li>
+<li><b>합류</b>: 선 끝이 다른 총신 8cm 안이면 그쪽으로 합류</li><li><b>길이</b>: 길수록 발사가 늦다. 투명한 관 속을 가는 총알이 보인다(시속 72km면 1m에 약 0.3초)</li>
+<li><b>위쪽</b>: 55도보다 위로 나간 총알은 하늘로 사라졌다가 약 1.8초 뒤 위에서 떨어진다. 바로 위면 쏜 사람 위, 55도면 과녁 근처</li>
+<li><b>아래쪽</b>: 바닥에서 튕긴다. 튕길 때마다 느려지고 3번까지</li><li><b>무게</b>: 총알은 조금씩 떨어진다. 느릴수록 많이 떨어진다</li>
+<li><b>자기를 향하면</b>: 쏜 사람의 몸이나 머리에 닿거나 뒤를 지나가면 <b>자기를 쏜</b> 것</li>
+<li><b>자동 조준</b>: 방아쇠를 당긴 순간 종이 가운데를 지나도록 총이 상하좌우 약 29도까지 방향을 고친다. 쏜 사람 쪽으로 나가는 총신은 고치지 않는다</li></ul>`],
+['굵기',`<ul><li>그리기 전에 고른다. 이어 그릴 때 다른 굵기로 하면 거기서부터 바뀐다</li><li><b>가늘게</b>: 총알 작음(0.55배), 1m마다 시속 32km 빨라짐, 잉크 0.6배</li>
+<li><b>보통</b>: 1배, 1m마다 시속 18km, 잉크 1배</li><li><b>굵게</b>: 총알 큼(1.6배), 1m마다 시속 4km만, 잉크 1.6배</li>
+<li><b>초굵게</b>: 큰 공(2.4배), 1m마다 시속 7km 느려짐, 잉크 2.4배. 너무 길면 막힌다</li><li>총알 크기는 나간 총신의 굵기로 정해진다. 클수록 잘 맞는다</li></ul>`],
+['부품',`<ul><li>「🔩부품」을 고르고 종류를 골라 총신 위를 누른다. 다시 누르면 빠진다. 한 자루에 8개까지</li><li>지나가는 총알마다 1번씩 효과</li>
+<li>🌀<b>스프링</b>: 시속 43km 빨라진다</li><li>🧊<b>얼음</b>: 속도 0.6배</li><li>💥<b>화약</b>: 속도 1.5배에 시속 22km 더</li>
+<li>👯<b>분신</b>: 총알이 2개로 갈라져 좌우로 약 6도씩 벌어진다</li><li>🕳️<b>구멍</b>: 총알 1개가 새어 나와 바닥을 굴러 종이의 받침대를 노린다. 크고 느리다. 본체 총알은 0.85배. 점프로 피할 수 있다</li></ul>`],
+['잡는 법·쌍권총',`<ul><li>잡는 법 버튼을 누를 때마다 바뀐다. 쌍권총이면 두 자루 같다</li><li>🤚<b>한 손</b>: 가슴 높이(1.35m)에서 앞으로</li><li>🙌<b>머리 위</b>: 머리 위(2.05m)에서 앞으로, 내려 쏘는 모양</li>
+<li>🦵<b>가랑이</b>: 무릎 높이(0.5m), 낮은 총알</li><li>🔙<b>등 뒤로</b>: 어깨 너머 <b>뒤를 향해</b> 잡는다. 곧게 그리면 뒤로 날아가니 U자로 그려야 과녁에 닿는다</li>
+<li>🔫<b>오른손／왼손</b>: 그릴 총을 바꾼다. 왼손 총을 그리면 <b>쌍권총</b>, 방아쇠 1번에 두 자루가 동시에, 각자 조준</li></ul>`],
+['시험 사격',`<ul><li>「준비」 후 8초 동안 방아쇠를 3번까지. 누른 타이밍이 그대로 기록되고 맞는 쪽에서도 그대로 쏜다</li>
+<li>화면 좌우를 누르면(PC는 ← →) 걸을 수 있다(시속 8km, 좌우 2.6m까지). 걷는 것도 기록된다</li><li>1발 이상 쏘면 「이걸로 결정」으로 일찍 끝낼 수 있다. 시험 사격에서 종이는 가운데에 서 있다</li>
+<li><b>등록 조건</b>: 자기가 맞지 않음, 폭발하지 않음, 1발 이상 과녁 범위(좌우 3.3m·높이 3m)까지 닿음</li><li>총 이름은 직접 짓고, 모양으로 <b>별명</b>도 자동으로 붙는다</li></ul>`],
+['피하기',`<ul><li>화면 왼쪽 절반을 누르면 왼쪽, 오른쪽이면 오른쪽(시속 12km, 좌우 2.8m까지). 위로 쓸면 점프(약 1m), 아래로 쓸면 앉기(키 55%). PC는 방향키</li>
+<li>움직이는 동안 종이가 45도까지 돌아 얇아진다</li><li><b>예측선</b>: 총알이 총구를 나가기 0.2초 전에 빨간 선이 한순간 보인다</li>
+<li>총은 방아쇠를 당긴 순간의 종이 가운데를 노린다. 방아쇠와 발사 사이에 움직이면 피하기 쉽다</li><li>종이(머리·목·몸)나 받침대에 맞으면 끝. 스친 총알은 그을린 자국을 남긴다</li></ul>`],
+['랭킹',`<ul><li>총의 K/D로 줄 선다. K/D＝맞힌 횟수÷피한 횟수(0회는 1로 계산)</li><li>10번 이상 플레이된 총만, 100위까지</li><li>한 사람당 그 총의 첫 번째만 기록, 자기 총은 안 들어간다</li><li>랭킹의 총을 누르면 그 총으로 피할 수 있다</li></ul>`]]};
+let manI=0;
+function openMan(i){if(i!=null)manI=i;const L=MAN[lang]||MAN.ja;manI=clamp(manI,0,L.length-1);$('manPanel').hidden=false;$('manTitle').textContent=t('man');$('manClose').textContent=t('close');
+ const tb=$('manTabs');tb.innerHTML='';L.forEach(([h],k)=>{const b=document.createElement('button');b.textContent=h;if(k===manI)b.className='on';b.onclick=()=>openMan(k);tb.appendChild(b);});
+ $('manBody').innerHTML='<h3>'+esc(L[manI][0])+'</h3>'+L[manI][1];$('manBody').scrollTop=0;}
+$('manClose').onclick=()=>{$('manPanel').hidden=true;};
+$('bMan').onclick=()=>openMan();$('dMan').onclick=()=>openMan();
 
 // ===== X =====
 function openX(text,url){const u='https://x.com/intent/post?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(url);const w=window.open(u,'_blank');if(!w)location.href=u;}
