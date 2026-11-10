@@ -463,7 +463,7 @@ const LANEW=2.35;
  for(const sd of [-1,1]){const ln=new THREE.Mesh(new THREE.BoxGeometry(.05,.012,L+6),GLOW(0xff8a1f));ln.position.set(sd*(S.XMAX+.38),.006,-L/2+.3);SC.add(ln);
   const w=new THREE.Mesh(new THREE.BoxGeometry(.25,3.6,L+11),M(0x252932,{roughness:.9}));w.position.set(sd*(LANEW+.12),1.8,-L/2-.7);SC.add(w);
   for(let z=2;z>-L-6;z-=1.2){const pn=new THREE.Mesh(RB(.08,2.6,1.05,.03),M(z%2.4?0x343a45:0x2e333d,{roughness:1}));pn.position.set(sd*(LANEW-.02),1.55,z);SC.add(pn);}
-  const st=new THREE.Mesh(new THREE.BoxGeometry(.06,.05,14.2),GLOW(0x9fd8ff));st.position.set(sd*1.15,3.33,-5.6);SC.add(st);}
+  const st=new THREE.Mesh(new THREE.BoxGeometry(.06,.05,9.5),GLOW(0x9fd8ff));st.position.set(sd*1.15,3.33,-5.75);SC.add(st);}
  const ce=new THREE.Mesh(new THREE.BoxGeometry(LANEW*2+.6,.12,L+11),M(0x15181e));ce.position.set(0,3.42,-L/2-.7);SC.add(ce);
  for(let z=-1.5;z>-L+.5;z-=3){const bf=new THREE.Mesh(new THREE.BoxGeometry(LANEW*2,.45,.12),M(0x1c2027));bf.position.set(0,3.12,z);SC.add(bf);
   const hz=new THREE.Mesh(new THREE.BoxGeometry(LANEW*2,.05,.13),GLOW(0xffc83a));hz.position.set(0,2.88,z);SC.add(hz);}
@@ -757,7 +757,7 @@ function wTick(Wd,bits){Wd.log.push(bits);
  Wd.t+=DT;}
 // 見た目：弾・予測線
 const v3=new THREE.Vector3();const LINE_T=.2;
-function shotVisuals(sh){sh.vis=sh.bullets.map(b=>{const m=new THREE.Mesh(BUL_G,BUL_M);m.scale.setScalar(Math.max(.04,b.r));m.visible=false;FX.add(m);const gl=new THREE.Sprite(GLOW_M);gl.scale.setScalar(Math.max(.42,b.r*9));gl.visible=false;FX.add(gl);
+function shotVisuals(sh){sh.vis=sh.bullets.map(b=>{const m=new THREE.Mesh(BUL_G,BUL_M);m.scale.setScalar(Math.max(.04,b.r));m.visible=false;FX.add(m);const gl=new THREE.Sprite(GLOW_M);gl.scale.setScalar(Math.max(.3,b.r*6.5));gl.visible=false;FX.add(gl);
   const pts=[];for(let i=0;i<b.pts.length;i+=3)pts.push(new THREE.Vector3(b.pts[i][0],b.pts[i][1],b.pts[i][2]));
   let line=null;if(pts.length>=2){const ex=S.toWorld(sh.fr,b.ex.p[0],b.ex.p[1],b.ex.p[2]);pts.unshift(new THREE.Vector3(...ex));line=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),Math.min(160,pts.length*2),.03,5,false),LINE_M.clone());line.material.userData.tmp=1;line.renderOrder=4;FX.add(line);}
   const tg=new THREE.BufferGeometry();tg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(48),3));const trail=new THREE.Line(tg,TRAIL_M);trail.visible=false;trail.frustumCulled=false;FX.add(trail);
@@ -1228,7 +1228,7 @@ function runOgp(){const w=OGP?1200:512,h=OGP?630:512;document.body.style.width=w
  CAM.updateProjectionMatrix();R.render(SC,CAM);
  if(OGP){const T=$('ogpT');T.hidden=false;T.innerHTML='<b>'+(lang==='en'?'GO<em>JUU</em>NI':'ご<em>ジュウ</em>に')+'</b><i>'+esc(t('ogp2'))+'</i><s>'+esc(t('ogp3'))+'</s>';}
  window.__ogpReady=1;}
-window.__GJpv={R,SC,CAM,SHOOT,PIVS,PAPER,S,DT,newWorld,wTick,handleEvents,renderWorld,camFor,buildGun,resetStage,clearFX,stepSparks,makeGun,renderDraw,drawResize,updStats,big,toolsUi,
+window.__GJpv={R,SC,CAM,SHOOT,PIVS,PAPER,S,DT,newWorld,wTick,handleEvents,renderWorld,camFor,buildGun,resetStage,clearFX,stepSparks,stepFlash,get lineOn(){return lineOn;},dodgedN,nick,t,makeGun,renderDraw,drawResize,updStats,big,toolsUi,
  setMode:m=>{mode=m;},setDraw:(h,dr,o)=>{hands=h;drawing=dr;if(o){if(o.view)view=o.view;if(o.grip!=null)grip=o.grip;if(o.hand!=null)hand=o.hand;if(o.dmode)dmode=o.dmode;if(o.thick!=null)thick=o.thick;}},hideHud,show,applyLang};
 window.__GJ={px:(v,q)=>proj(v,q,AREA,DS),get view(){return view;},PAPER,CAM,THREE,SC,get W(){return W;},get mode(){return mode;},S,startTest,startDodge,makeGun,get hands(){return hands;},set hands(v){hands=v;},setGrip:v=>{grip=v;},setView,pressTrig,gunFrom,openRank,showTitle};
 </script>
