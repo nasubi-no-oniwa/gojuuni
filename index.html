@@ -15,7 +15,7 @@
 <meta name="description" content="銃身はご自由に。銃身を自由に描いて撃つ役と、射撃場の紙の的になって弾をよける役。描いた形で弾の飛び方が変わる。">
 <meta property="og:title" content="ごジュウに">
 <meta property="og:description" content="銃身はご自由に。銃身を自由に描いて撃つ役と、紙の的になって弾をよける役。描いた形で弾の飛び方が変わる。">
-<meta property="og:image" content="https://nasubi-no-oniwa.github.io/gojuuni/ogp.png">
+<meta property="og:image" content="https://nasubi-no-oniwa.github.io/gojuuni/ogp.png?v=2">
 <meta property="og:url" content="https://nasubi-no-oniwa.github.io/gojuuni/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="icon.png">
@@ -128,11 +128,11 @@ table.rank tr.me td{background:#fff2c4}
 #dBtns button{pointer-events:auto;width:96px;height:96px;border-radius:50%;border:4px solid #fff;background:#ffffff22;color:#fff;font-family:inherit;font-weight:900;font-size:16px;backdrop-filter:blur(2px);touch-action:none;text-shadow:0 0 4px #000}
 #dBtns button.on{background:#ff8a1f88}
 #toast{position:fixed;left:50%;top:22%;transform:translateX(-50%);z-index:9;background:#1d1d1de6;color:#fff;font-weight:900;padding:10px 16px;border-radius:12px;font-size:14px;pointer-events:none;max-width:90vw;text-align:center}
-#ogpT{position:fixed;left:4%;top:10%;z-index:20;pointer-events:none;color:#1d1d1d;font-weight:900;text-shadow:0 0 12px #fff,0 0 6px #fff,0 0 3px #fff}
+#ogpT{position:fixed;left:4%;top:10%;z-index:20;pointer-events:none;color:#fff;font-weight:900;text-shadow:0 4px 0 #000,0 0 14px #000,0 0 6px #000}
 #ogpT b{display:block;font-size:120px;line-height:1}
 #ogpT b em{font-style:normal;color:#ff7a1a}
 #ogpT i{display:block;font-style:normal;font-size:46px;margin-top:14px}
-#ogpT s{display:block;text-decoration:none;font-size:30px;margin-top:10px;color:#2a6bd7}
+#ogpT s{display:block;text-decoration:none;font-size:30px;margin-top:10px;color:#ffd23a}
 </style>
 <!-- nasubi-track: 結果画面とXへの投稿の回数を記録（ゲームの動きには影響しない） -->
 <script>(function(){try{var G="gojuuni",IDS=["resPanel","regPanel"];
@@ -1222,9 +1222,9 @@ function runOgp(){const w=OGP?1200:512,h=OGP?630:512;document.body.style.width=w
  const main=S.tidy([[0,0],[.25,.06],[.45,-.04],[.65,.06],[.9,0],[1.1,.02]]);const st=[{at:null,p:main}];
  [[5,.22,.18],[9,-.2,.22],[13,.16,.3],[17,-.18,.3],[21,.12,.26]].forEach(([i,dy,dx])=>{if(main[i]){const a=main[i];st.push({at:[0,i],p:S.tidy([a,[a[0]+dx*.5,a[1]+dy*.6],[a[0]+dx,a[1]+dy]])});}});
  const gun=makeGun({hands:[{strokes:st.map(x=>({...x,p:x.p.map(q=>[q[0],q[1]*.7,q[1]*.5])})),parts:[{k:0,i:8,t:'sp'}]},{strokes:[]}],grip:0,sh:[0]});GUN=gun;buildGun(gun);
- const Wd=newWorld('dodge',gun,[0],0);Wd.P.x=.3;W=Wd;const until=Math.min(...Wd.A.exits.map(e=>e.t))+.38;for(let i=0;i<Math.round(until/DT);i++){wTick(Wd,0);handleEvents(Wd,false);}Wd.P.yaw=-.55;Wd.P.x=-.15;Wd.over=null;renderWorld(Wd);
+ const Wd=newWorld('dodge',gun,[0],0);Wd.P.x=.3;W=Wd;const until=Math.min(...Wd.gun.A[0].exits.map(e=>e.t))+.38;for(let i=0;i<Math.round(until/DT);i++){wTick(Wd,0);handleEvents(Wd,false);}Wd.P.yaw=-.55;Wd.P.x=-.15;Wd.over=null;renderWorld(Wd);
  for(const sh of Wd.fired)sh.vis.forEach(V=>{if(V.line){V.line.visible=true;V.line.material.opacity=.85;}});
- if(OGP){CAM.fov=38;CAM.position.set(2.4,2.0,-L-3.6);CAM.lookAt(-1.1,1.25,-L+5.5);}else{CAM.fov=40;CAM.position.set(.9,1.55,-L-2.3);CAM.lookAt(-.25,1.05,-L+2);}
+ if(OGP){CAM.fov=40;CAM.position.set(1.55,1.85,-L-3.3);CAM.lookAt(-.8,1.2,-L+5.5);}else{CAM.fov=40;CAM.position.set(.9,1.55,-L-2.3);CAM.lookAt(-.25,1.05,-L+2);}
  CAM.updateProjectionMatrix();R.render(SC,CAM);
  if(OGP){const T=$('ogpT');T.hidden=false;T.innerHTML='<b>'+(lang==='en'?'GO<em>JUU</em>NI':'ご<em>ジュウ</em>に')+'</b><i>'+esc(t('ogp2'))+'</i><s>'+esc(t('ogp3'))+'</s>';}
  window.__ogpReady=1;}
