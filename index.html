@@ -449,7 +449,7 @@ let VW=innerWidth,VH=innerHeight;
 function resize(){VW=innerWidth;VH=innerHeight;if(!OGP&&!ICON){R.setSize(VW,VH,false);CAM.aspect=VW/VH;CAM.updateProjectionMatrix();}if(mode==='draw')drawResize();}
 addEventListener('resize',resize);
 function camFor(kind,T,px){const por=VW<VH;px=px||0;
- if(kind==='dodge'){CAM.fov=por?64:50;CAM.position.set(px*.85,por?3.4:3.0,-L-(por?4.2:3.6));CAM.lookAt(px*.55,.95,-L+8);}
+ if(kind==='dodge'){CAM.fov=por?64:52;CAM.position.set(px*.85,3.4,-L-(por?4.2:4.6));CAM.lookAt(px*.55,por?.95:.85,-L+8);}
  else if(kind==='test'){CAM.fov=por?62:48;CAM.position.set(por?2.3:2.6,por?2.5:2.4,por?3.4:3.0);CAM.lookAt(-.4,1.0,por?-3.5:-4.5);}
  else{const a=T*.12;CAM.fov=55;CAM.position.set(Math.sin(a)*5.5,3.2,-L*.4+Math.cos(a)*9);CAM.lookAt(0,1.1,-L*.55);}
  CAM.updateProjectionMatrix();}
