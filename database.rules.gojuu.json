@@ -20,7 +20,7 @@
         ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 0 && newData.val() <= 90"
       },
       "sh": {
-        ".validate": "newData.isString() && newData.val().matches(/^[0-9]{1,5}(,[0-9]{1,5}){0,2}$/)"
+        ".validate": "newData.isString() && newData.val().matches(/^[0-9]{1,5}(,[0-9]{1,5}){0,9}$/)"
       },
       "u": {
         ".validate": "newData.isString()"

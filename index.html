@@ -25,7 +25,9 @@
 [hidden]{display:none!important}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Maru Gothic ProN","Rounded Mplus 1c",system-ui,sans-serif;overflow:hidden;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;overscroll-behavior:none;touch-action:none}
+body{position:fixed;inset:0;width:100%}
 #c,#dc{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#inPanel{z-index:40}#inT{font-size:21px}#inB{white-space:pre-line;text-align:left;font-size:13.5px;line-height:1.6}
 #dc{z-index:2;background:#eaf4ff}
 #big{position:fixed;left:0;right:0;top:28%;text-align:center;font-size:52px;font-weight:900;color:#fff;text-shadow:0 4px 0 #0006,0 0 14px #0007;z-index:8;pointer-events:none;line-height:1.15;padding:0 10px}
 #big small{display:block;font-size:20px;margin-top:6px}
@@ -70,12 +72,12 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family
 #trig:active{transform:translateY(3px);box-shadow:0 3px 0 #0005}
 #trig:disabled{filter:grayscale(1) brightness(1.2);opacity:.6}
 #trig small{display:block;font-size:13px;margin-top:2px}
-#hudTop{position:fixed;left:64px;right:64px;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:5;text-align:center;pointer-events:none;text-shadow:0 0 6px #fff,0 0 3px #fff}
+#hudTop{position:fixed;left:64px;right:64px;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:5;text-align:center;pointer-events:none;color:#fff;text-shadow:0 0 6px #000,0 0 3px #000}
 #hudTop b{display:block;font-size:20px;font-weight:900}
-#hudTop span{display:block;font-size:13px;font-weight:800;color:#333}
-#hudTop i{display:block;font-style:normal;font-size:12px;font-weight:800;color:#555;margin-top:2px}
+#hudTop span{display:block;font-size:13px;font-weight:800;color:#ffd23a}
+#hudTop i{display:block;font-style:normal;font-size:15px;font-weight:900;color:#fff;margin-top:3px}
 #ctl{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);z-index:5;text-align:center;font-size:12px;font-weight:900;color:#fff;text-shadow:0 0 4px #000,0 0 2px #000;pointer-events:none}
-#quit{position:fixed;right:10px;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:6;border:2px solid var(--ink);background:#fffc;border-radius:10px;font-weight:900;font-family:inherit;font-size:12px;padding:6px 10px}
+#quit{position:fixed;right:10px;color:#1d1d1d;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:6;border:2px solid var(--ink);background:#fffc;border-radius:10px;font-weight:900;font-family:inherit;font-size:12px;padding:6px 10px}
 .panel{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;background:#0005;padding:14px}
 .card{background:var(--card);border:3px solid var(--ink);border-radius:18px;padding:18px;max-width:400px;width:100%;text-align:center;max-height:100%;overflow:auto;box-shadow:0 8px 0 #0004}
 .card h1{margin:0 0 4px;font-size:40px;line-height:1.15}
@@ -117,6 +119,14 @@ table.rank tr.me td{background:#fff2c4}
 #rankBox{max-height:58vh;overflow:auto}
 #vidPrev{width:100%;max-height:46vh;border-radius:12px;background:#000;display:block;margin:6px 0}
 #recBadge{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);z-index:30;background:#1d1d1de6;color:#fff;font-weight:900;padding:16px 22px;border-radius:14px;font-size:16px}
+#vig{position:fixed;inset:0;pointer-events:none;z-index:6;box-shadow:inset 0 0 140px 50px rgba(255,20,10,.75);opacity:0}
+#warn{position:fixed;inset:0;pointer-events:none;z-index:6;box-shadow:inset 0 0 90px 20px rgba(255,40,40,.45);opacity:0;transition:opacity .08s}
+#pop{position:fixed;left:0;right:0;top:36%;text-align:center;z-index:8;pointer-events:none;font-size:46px;font-weight:900;color:#ffe14a;opacity:0;text-shadow:3px 3px 0 #000,-3px 3px 0 #000,3px -3px 0 #000,-3px -3px 0 #000,0 0 18px #ff8a00}
+#pop.go{animation:popg .7s ease-out}
+@keyframes popg{0%{opacity:0;transform:scale(1.8)}15%{opacity:1;transform:scale(1)}70%{opacity:1}100%{opacity:0;transform:translateY(-20px)}}
+#dBtns{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 34px);z-index:7;display:flex;justify-content:space-between;padding:0 14px;pointer-events:none}
+#dBtns button{pointer-events:auto;width:96px;height:96px;border-radius:50%;border:4px solid #fff;background:#ffffff22;color:#fff;font-family:inherit;font-weight:900;font-size:16px;backdrop-filter:blur(2px);touch-action:none;text-shadow:0 0 4px #000}
+#dBtns button.on{background:#ff8a1f88}
 #toast{position:fixed;left:50%;top:22%;transform:translateX(-50%);z-index:9;background:#1d1d1de6;color:#fff;font-weight:900;padding:10px 16px;border-radius:12px;font-size:14px;pointer-events:none;max-width:90vw;text-align:center}
 #ogpT{position:fixed;left:4%;top:10%;z-index:20;pointer-events:none;color:#1d1d1d;font-weight:900;text-shadow:0 0 12px #fff,0 0 6px #fff,0 0 3px #fff}
 #ogpT b{display:block;font-size:120px;line-height:1}
@@ -137,6 +147,8 @@ var was={};setInterval(function(){try{var any=false;for(var i=0;i<IDS.length;i++
 <canvas id="dc" hidden></canvas>
 <div id="big"></div>
 <div id="toast" hidden></div>
+<div id="vig"></div><div id="warn"></div><div id="pop"></div>
+<div id="dBtns" hidden><button id="bCrouch"></button><button id="bJump"></button></div>
 <div id="ogpT" hidden></div>
 
 <!-- 銃身を描く -->
@@ -153,6 +165,7 @@ var was={};setInterval(function(){try{var any=false;for(var i=0;i<IDS.length;i++
  <div class="btns"><button id="dUndo"></button><button id="dClear"></button><button id="dBack"></button><button class="go" id="dNext"></button></div>
 </div>
 <div class="panel" id="manPanel" hidden><div class="card man"><h2 id="manTitle"></h2><div id="manTabs"></div><div id="manBody"></div><button class="sub" id="manClose"></button></div></div>
+<div class="panel" id="inPanel" hidden><div class="card"><h2 id="inT"></h2><p class="c" id="inB"></p><button class="or" id="inCopy"></button><button id="inOk"></button></div></div>
 <div class="panel" id="askPanel" hidden><div class="card"><h2 id="askQ"></h2><p class="c" id="askS"></p><button class="or" id="askA"></button><button id="askB"></button><button class="sub" id="askC" hidden></button></div></div>
 
 <!-- 試し撃ち・よける -->
@@ -242,7 +255,7 @@ var was={};setInterval(function(){try{var any=false;for(var i=0;i<IDS.length;i++
 <script type="module">
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import * as S from './sim.js?v=1';
+import * as S from './sim.js?v=2';
 const $=id=>document.getElementById(id);
 const GAME_URL='https://nasubi-no-oniwa.github.io/gojuuni/';
 const QS=new URLSearchParams(location.search);
@@ -255,7 +268,7 @@ const cleanCode=s=>String(s||'').toUpperCase().replace(/O/g,'0').replace(/[IL]/g
 
 // ===== ことば =====
 const TX={
-ja:{title:'ごジュウに',man:'📖説明書',close:'閉じる',readMan:'📖説明書を読む',
+ja:{title:'ごジュウに',jumpB:'ジャンプ',crouchB:'しゃがむ',close1:'ギリギリ！',hudCnt:'残り {n} 回　よけた弾 {d}',resLine:'よけた弾 {d} 発・ギリギリ {g} 回',ctlK:'←→ 移動　↑・スペース ジャンプ　↓ しゃがむ',inT:'ブラウザで開くと描きやすいよ',inB:'Xなどのアプリの中で開いていると、描いている途中に画面のバーが上下に動いて、描きにくいことがあります。\nSafari や Chrome で開くと、画面が動かずに描けます。\n\n開き方：画面のメニュー（「…」やコンパスのマーク）から「ブラウザで開く」「Safariで開く」を押す。または下のボタンでリンクをコピーして、Safari に貼りつける。',inCopy:'リンクをコピー',inOk:'このまま描く',inDone:'コピーしました。Safari や Chrome に貼りつけて開いてね',man:'📖説明書',close:'閉じる',readMan:'📖説明書を読む',
  mDraw:'✏️描く',mBend:'✋曲げる',mPart:'🔩パーツ',vSide:'横から',vTop:'上から',tapSw:'押すと切りかえ',toTarget:'的',needBarrel:'銃身の上を押してね',partMax:'パーツは8個まで',
  handR:'🔫右手',handL:'🔫左手',handRT:'右手の銃を描きます',handLT:'左手の銃を描きます（描くと2丁拳銃になる）',g0:'🤚片手',g1:'🙌頭の上',g2:'🦵股の下',g3:'🔙背中ごし',
  w0:'細い',w1:'ふつう',w2:'太い',w3:'極太',p_sp:'バネ',p_ic:'氷',p_pw:'火薬',p_cl:'分身',p_ho:'穴',
@@ -271,25 +284,25 @@ ja:{title:'ごジュウに',man:'📖説明書',close:'閉じる',readMan:'📖�
  dHint:'銃の口（光っている所）から描くと銃身になる。とちゅうから描くと枝分かれ。右下の小さい図は、もう一方の向き',
  needMuzzle:'銃の口か、銃身から描きはじめてね',noInk:'インクがなくなった',tilt:'かたむき',deg:'{d}度',
  undo:'ひとつ戻す',clear:'全部消す',back:'もどる',toTest:'試し撃ちへ',
- tDone:'これで決定',testA:'試し撃ち',testB:'引き金を押すと撃つ（3発まで）。押したタイミングがそのまま記録される',trig:'引き金',left:'のこり{n}発',quit:'やめる',
+ tDone:'これで決定',testA:'試し撃ち',testB:'引き金を押すと撃つ（10発まで）。押したタイミングがそのまま記録される',trig:'引き金',left:'のこり{n}発',quit:'やめる',
  ready:'よーい',go:'撃て！',dodgeGo:'よけろ！',
  self:'自分を撃った！',jam:'暴発！',noReach:'的まで届いていない…',none:'撃たなかった',okHead:'いい銃だ',
  selfSub:'銃口が自分を向いていた。描きなおそう',jamSub:'カクカクすぎて弾がつまった。描きなおそう',noReachSub:'登録できるのは、1発以上が紙の的のいる所まで届く銃だけです',noneSub:'引き金を押して撃ってください',okSub:'この銃を登録すると、合言葉がもらえます',
  gNameL:'銃の名前（自分でつけられる）',defName:'名無しの銃',reg:'この銃を登録する',regging:'登録しています…',regErr:'登録できませんでした。少し待ってもう一度',regWait:'続けて登録するときは、15秒ほど待ってください',
  regDone:'登録しました',codeL:'合言葉',xGun:'Xに銃を投稿する',copy:'合言葉をコピー',copied:'コピーしました',selfTry:'自分で撃たれてみる',
  retest:'撃ちなおす',redraw:'描きなおす',top:'タイトルへ',
- ctl:'画面の左右を押す＝移動 ／ 上にはらう＝ジャンプ ／ 下にはらう＝しゃがむ（パソコンは矢印キー）',
+ ctl:'左右になぞって移動　上下にはらうかボタンでジャンプ・しゃがむ',
  gunBy:'「{n}」',dodged:'よけきった！',hit:'当たった…',shooterSelf:'撃った人が自分を撃った',
  resNote:'合言葉：{c}',ownGun:'自分の銃なので、記録には入りません',already:'この銃の記録に入るのは、1回目だけです',sending:'記録しています…',sent:'記録しました',sendErr:'記録できませんでした',
  kdLine:'この銃のK/D {kd}（当てた {h}・よけられた {d}）',again:'もう一度',next:'次の銃（おまかせ）',vid:'結果を動画にする',xRes:'Xに投稿',rank:'ランキング',
  rkTitle:'K/D ランキング（銃）',rkNote:'10回以上遊ばれた銃だけ。K/D＝当てた回数÷よけられた回数（0回は1として計算）。押すとその銃でよけられる',rkEmpty:'まだランキングに入った銃はありません',rkErr:'読みこめませんでした',kdS:'当て{h}・よけ{d}',
  postGun:'銃身をご自由にした「{n}」（{f}）を作った。よけてみろ\n合言葉：{c}\n#ごジュウに',
- postDodge:'「{n}」（{f}）の弾をよけきった\n合言葉：{c}\n#ごジュウに',postHit:'「{n}」（{f}）に撃たれた\n合言葉：{c}\n#ごジュウに',
+ postDodge:'「{n}」（{f}）の弾を{d}発よけきった（ギリギリ{g}回）\n合言葉：{c}\n#ごジュウに',postHit:'「{n}」（{f}）の弾を{d}発よけたけど撃たれた\n合言葉：{c}\n#ごジュウに',
  postSelf:'銃身をご自由にした結果、自分を撃った\n#ごジュウに',postJam:'銃身をご自由にした結果、暴発した\n#ごジュウに',
  making:'動画を作っています…',vfail:'この端末では動画を作れませんでした',vmade:'「共有する」からXアプリを選ぶと、動画つきで投稿できます',shareHint:'保存してからXに投稿してください',vShare:'共有する（Xアプリへ）',vSave:'保存する',vX:'Xに投稿（文だけ）',
  nk:{b7:'七つ首',b4:'千手',b2:'二股',cl:'無限回廊',sp:'渦巻き',l3:'三重ばね',l1:'ばね',wv:'うねり',cn:'カクカク',up:'山なり',dn:'跳ね返り',cv:'曲がり',lg:'長すぎる',sh:'ふつうの',st:'まっすぐ',tw:'ねじれ',sd:'横向き',ho:'穴あき',fx:'極太',dw:'二丁',oh:'頭上',cr:'股下',bk:'背中撃ち',sep:'・',suf:'銃'},
  ogp2:'銃身はご自由に',ogp3:'描いて撃つ ／ 紙になってよける'},
-en:{title:'GOJUUNI',man:'📖Manual',close:'Close',readMan:'📖Read the manual',
+en:{title:'GOJUUNI',jumpB:'JUMP',crouchB:'CROUCH',close1:'CLOSE CALL!',hudCnt:'{n} shots left · dodged {d}',resLine:'Dodged {d} · close calls {g}',ctlK:'←→ move · ↑/Space jump · ↓ crouch',inT:'Drawing is easier in a browser',inB:'Inside apps like X, the browser bar can slide up and down while you draw.\nOpen this page in Safari or Chrome and the screen stays still.\n\nHow: use the app menu (… or the compass icon) → "Open in browser" / "Open in Safari". Or copy the link below and paste it into Safari.',inCopy:'Copy link',inOk:'Keep drawing here',inDone:'Copied. Paste it into Safari or Chrome.',man:'📖Manual',close:'Close',readMan:'📖Read the manual',
  mDraw:'✏️Draw',mBend:'✋Bend',mPart:'🔩Parts',vSide:'Side',vTop:'Top',tapSw:'tap to switch',toTarget:'target',needBarrel:'Tap on the barrel',partMax:'Up to 8 parts',
  handR:'🔫Right',handL:'🔫Left',handRT:'Drawing the right-hand gun',handLT:'Drawing the left-hand gun (draw it to dual-wield)',g0:'🤚1 hand',g1:'🙌Overhead',g2:'🦵Crotch',g3:'🔙Backward',
  w0:'Thin',w1:'Normal',w2:'Thick',w3:'Huge',p_sp:'Spring',p_ic:'Ice',p_pw:'Powder',p_cl:'Clone',p_ho:'Hole',
@@ -305,25 +318,25 @@ en:{title:'GOJUUNI',man:'📖Manual',close:'Close',readMan:'📖Read the manual'
  dHint:'Draw from the glowing muzzle. Start from the middle to branch. The small view shows the other side',
  needMuzzle:'Start from the muzzle or a barrel',noInk:'Out of ink',tilt:'Tilt',deg:'{d}°',
  undo:'Undo',clear:'Clear',back:'Back',toTest:'Test fire',
- tDone:'Done',testA:'Test fire',testB:'Press the trigger to shoot (up to 3). Your timing is recorded as is',trig:'TRIGGER',left:'{n} left',quit:'Quit',
+ tDone:'Done',testA:'Test fire',testB:'Press the trigger to shoot (up to 10). Your timing is recorded as is',trig:'TRIGGER',left:'{n} left',quit:'Quit',
  ready:'Ready',go:'Fire!',dodgeGo:'Dodge!',
  self:'You shot yourself!',jam:'Misfire!',noReach:'Didn\'t reach the target…',none:'You didn\'t shoot',okHead:'Nice gun',
  selfSub:'The muzzle was pointing at you. Draw again',jamSub:'Too many sharp corners jammed the bullet. Draw again',noReachSub:'Only guns with at least one bullet reaching the target area can be registered',noneSub:'Press the trigger to shoot',okSub:'Register this gun to get a code',
  gNameL:'Gun name (your choice)',defName:'Nameless Gun',reg:'Register this gun',regging:'Registering…',regErr:'Could not register. Wait a bit and retry',regWait:'Wait about 15 seconds between registrations',
  regDone:'Registered',codeL:'Code',xGun:'Post the gun on X',copy:'Copy code',copied:'Copied',selfTry:'Get shot by it yourself',
  retest:'Shoot again',redraw:'Redraw',top:'Title',
- ctl:'Hold left/right side = move / Swipe up = jump / Swipe down = crouch (PC: arrow keys)',
+ ctl:'Slide to move · Swipe up/down or use the buttons to jump/crouch',
  gunBy:'"{n}"',dodged:'Dodged it all!',hit:'Hit…',shooterSelf:'The shooter shot himself',
  resNote:'Code: {c}',ownGun:'Your own gun doesn\'t count',already:'Only your first try counts for this gun',sending:'Recording…',sent:'Recorded',sendErr:'Could not record',
  kdLine:'This gun\'s K/D {kd} (hits {h} / dodged {d})',again:'Again',next:'Next gun (random)',vid:'Make a video',xRes:'Post on X',rank:'Ranking',
  rkTitle:'K/D Ranking (guns)',rkNote:'Guns played 10+ times. K/D = hits ÷ dodges (0 counts as 1). Tap to dodge that gun',rkEmpty:'No ranked guns yet',rkErr:'Could not load',kdS:'hit {h} / dodged {d}',
  postGun:'I drew my own barrel: "{n}" ({f}). Dodge it\nCode: {c}\n#ごジュウに',
- postDodge:'Dodged every bullet of "{n}" ({f})\nCode: {c}\n#ごジュウに',postHit:'Got shot by "{n}" ({f})\nCode: {c}\n#ごジュウに',
+ postDodge:'Dodged all {d} bullets of "{n}" ({f}), {g} close calls\nCode: {c}\n#ごジュウに',postHit:'Dodged {d} bullets of "{n}" ({f}), then got shot\nCode: {c}\n#ごジュウに',
  postSelf:'Drew my own barrel and shot myself\n#ごジュウに',postJam:'Drew my own barrel and it blew up\n#ごジュウに',
  making:'Making the video…',vfail:'Could not make a video on this device',vmade:'Tap "Share" and pick the X app to post with the video',shareHint:'Save it, then post on X',vShare:'Share (to the X app)',vSave:'Save',vX:'Post on X (text only)',
  nk:{b7:'Seven-Headed',b4:'Thousand-Armed',b2:'Forked',cl:'Endless Loop',sp:'Swirling',l3:'Triple-Spring',l1:'Spring',wv:'Wobbly',cn:'Zigzag',up:'Lobbing',dn:'Bouncing',cv:'Curving',lg:'Way Too Long',sh:'Plain',st:'Straight',tw:'Twisted',sd:'Sideways',ho:'Leaky',fx:'Huge',dw:'Dual',oh:'Overhead',cr:'Crotch',bk:'Backwards',sep:' ',suf:' Gun'},
  ogp2:'Draw your own barrel',ogp3:'Draw & shoot / Dodge as the paper'},
-zh:{title:'ごジュウに',sub:'槍管隨你畫',man:'📖說明書',close:'關閉',readMan:'📖看說明書',
+zh:{title:'ごジュウに',sub:'槍管隨你畫',jumpB:'跳',crouchB:'蹲',close1:'好險！',hudCnt:'剩 {n} 次　躲過 {d} 發',resLine:'躲過 {d} 發・好險 {g} 次',ctlK:'←→ 移動　↑・空白鍵 跳　↓ 蹲',inT:'用瀏覽器開比較好畫',inB:'在X等App裡開啟時，畫的途中畫面的列可能會上下移動，不好畫。\n用 Safari 或 Chrome 開啟，畫面就不會動。\n\n開法：從App的選單（「…」或指南針圖示）選「用瀏覽器開啟」「用Safari開啟」。或用下面的按鈕複製連結，貼到 Safari。',inCopy:'複製連結',inOk:'就這樣畫',inDone:'已複製。貼到 Safari 或 Chrome 開啟吧',man:'📖說明書',close:'關閉',readMan:'📖看說明書',
  mDraw:'✏️畫',mBend:'✋彎',mPart:'🔩零件',vSide:'側面',vTop:'上面',tapSw:'點一下切換',toTarget:'靶',needBarrel:'請點在槍管上',partMax:'零件最多8個',
  handR:'🔫右手',handL:'🔫左手',handRT:'畫右手的槍',handLT:'畫左手的槍（畫了就是雙槍）',g0:'🤚單手',g1:'🙌頭上',g2:'🦵胯下',g3:'🔙背後',
  w0:'細',w1:'普通',w2:'粗',w3:'超粗',p_sp:'彈簧',p_ic:'冰',p_pw:'火藥',p_cl:'分身',p_ho:'洞',
@@ -339,25 +352,25 @@ zh:{title:'ごジュウに',sub:'槍管隨你畫',man:'📖說明書',close:'關
  dHint:'從發光的槍口畫就是槍管。從中間畫會分岔。右下小圖是另一個方向',
  needMuzzle:'請從槍口或槍管開始畫',noInk:'墨水用完了',tilt:'傾斜',deg:'{d}度',
  undo:'復原一步',clear:'全部清除',back:'返回',toTest:'去試射',
- tDone:'就這樣',testA:'試射',testB:'按扳機就開槍（最多3發）。按下的時機會直接記錄',trig:'扳機',left:'剩{n}發',quit:'放棄',
+ tDone:'就這樣',testA:'試射',testB:'按扳機就開槍（最多10發）。按下的時機會直接記錄',trig:'扳機',left:'剩{n}發',quit:'放棄',
  ready:'預備',go:'開槍！',dodgeGo:'快躲！',
  self:'打到自己了！',jam:'走火！',noReach:'沒打到靶子那邊…',none:'沒有開槍',okHead:'好槍',
  selfSub:'槍口對著自己。重畫吧',jamSub:'轉角太多，子彈卡住了。重畫吧',noReachSub:'至少有1發能到達紙靶所在範圍的槍才能登錄',noneSub:'請按扳機開槍',okSub:'登錄這把槍就能拿到暗號',
  gNameL:'槍的名字（自己取）',defName:'無名之槍',reg:'登錄這把槍',regging:'登錄中…',regErr:'無法登錄，請稍等再試',regWait:'連續登錄請等15秒左右',
  regDone:'登錄完成',codeL:'暗號',xGun:'把槍發到X',copy:'複製暗號',copied:'已複製',selfTry:'自己來被射看看',
  retest:'重新試射',redraw:'重畫',top:'回標題',
- ctl:'按住畫面左右＝移動／往上滑＝跳／往下滑＝蹲（電腦用方向鍵）',
+ ctl:'左右滑動移動　上下滑或按鈕跳・蹲',
  gunBy:'「{n}」',dodged:'全部躲過！',hit:'被打中了…',shooterSelf:'開槍的人打到自己了',
  resNote:'暗號：{c}',ownGun:'自己的槍不會計入紀錄',already:'這把槍只計第一次的紀錄',sending:'記錄中…',sent:'已記錄',sendErr:'無法記錄',
  kdLine:'這把槍的K/D {kd}（命中 {h}・被躲 {d}）',again:'再一次',next:'下一把（隨機）',vid:'把結果做成影片',xRes:'發到X',rank:'排行榜',
  rkTitle:'K/D 排行榜（槍）',rkNote:'只列被玩過10次以上的槍。K/D＝命中次數÷被躲次數（0次算1）。點一下就能躲那把槍',rkEmpty:'還沒有上榜的槍',rkErr:'讀取失敗',kdS:'中{h}・躲{d}',
  postGun:'隨我畫槍管的「{n}」（{f}）做好了。來躲躲看\n暗號：{c}\n#ごジュウに',
- postDodge:'躲過了「{n}」（{f}）的所有子彈\n暗號：{c}\n#ごジュウに',postHit:'被「{n}」（{f}）打中了\n暗號：{c}\n#ごジュウに',
+ postDodge:'躲過了「{n}」（{f}）全部{d}發子彈（好險{g}次）\n暗號：{c}\n#ごジュウに',postHit:'躲過「{n}」（{f}）{d}發後被打中了\n暗號：{c}\n#ごジュウに',
  postSelf:'隨我畫槍管的結果，打到自己\n#ごジュウに',postJam:'隨我畫槍管的結果，走火了\n#ごジュウに',
  making:'影片製作中…',vfail:'這台裝置無法製作影片',vmade:'按「分享」選X應用程式，就能附影片發文',shareHint:'請先存檔再發到X',vShare:'分享（到X應用程式）',vSave:'存檔',vX:'發到X（只有文字）',
  nk:{b7:'七頭',b4:'千手',b2:'雙叉',cl:'無限迴廊',sp:'漩渦',l3:'三重彈簧',l1:'彈簧',wv:'扭動',cn:'鋸齒',up:'拋物',dn:'反彈',cv:'彎曲',lg:'過長',sh:'普通',st:'筆直',tw:'扭曲',sd:'橫向',ho:'漏洞',fx:'超粗',dw:'雙',oh:'頭上',cr:'胯下',bk:'背射',sep:'・',suf:'槍'},
  ogp2:'槍管隨你畫',ogp3:'畫了就射／當紙靶閃躲'},
-ko:{title:'ごジュウに',sub:'총신은 마음대로',man:'📖설명서',close:'닫기',readMan:'📖설명서 읽기',
+ko:{title:'ごジュウに',sub:'총신은 마음대로',jumpB:'점프',crouchB:'앉기',close1:'아슬아슬!',hudCnt:'남은 {n}번　피한 총알 {d}',resLine:'피한 총알 {d}발・아슬아슬 {g}번',ctlK:'←→ 이동　↑·스페이스 점프　↓ 앉기',inT:'브라우저로 열면 그리기 쉬워요',inB:'X 같은 앱 안에서 열면, 그리는 도중에 화면의 바가 위아래로 움직여서 그리기 어려울 수 있어요.\nSafari나 Chrome으로 열면 화면이 움직이지 않아요.\n\n여는 법: 앱의 메뉴(「…」나 나침반 아이콘)에서 「브라우저로 열기」「Safari로 열기」를 누르기. 또는 아래 버튼으로 링크를 복사해서 Safari에 붙여넣기.',inCopy:'링크 복사',inOk:'그대로 그리기',inDone:'복사했어요. Safari나 Chrome에 붙여넣어 열어 주세요',man:'📖설명서',close:'닫기',readMan:'📖설명서 읽기',
  mDraw:'✏️그리기',mBend:'✋구부리기',mPart:'🔩부품',vSide:'옆에서',vTop:'위에서',tapSw:'누르면 전환',toTarget:'과녁',needBarrel:'총신 위를 눌러 주세요',partMax:'부품은 8개까지',
  handR:'🔫오른손',handL:'🔫왼손',handRT:'오른손 총을 그립니다',handLT:'왼손 총을 그립니다 (그리면 쌍권총)',g0:'🤚한 손',g1:'🙌머리 위',g2:'🦵가랑이',g3:'🔙등 뒤로',
  w0:'가늘게',w1:'보통',w2:'굵게',w3:'초굵게',p_sp:'스프링',p_ic:'얼음',p_pw:'화약',p_cl:'분신',p_ho:'구멍',
@@ -373,20 +386,20 @@ ko:{title:'ごジュウに',sub:'총신은 마음대로',man:'📖설명서',clo
  dHint:'빛나는 총구에서 그리면 총신이 된다. 중간에서 그리면 갈라진다. 오른쪽 아래 작은 그림은 다른 방향',
  needMuzzle:'총구나 총신에서 그리기 시작하세요',noInk:'잉크가 다 떨어졌다',tilt:'기울기',deg:'{d}도',
  undo:'하나 되돌리기',clear:'모두 지우기',back:'돌아가기',toTest:'시험 사격',
- tDone:'이걸로 결정',testA:'시험 사격',testB:'방아쇠를 누르면 쏜다 (3발까지). 누른 타이밍이 그대로 기록된다',trig:'방아쇠',left:'남은 {n}발',quit:'그만두기',
+ tDone:'이걸로 결정',testA:'시험 사격',testB:'방아쇠를 누르면 쏜다 (10발까지). 누른 타이밍이 그대로 기록된다',trig:'방아쇠',left:'남은 {n}발',quit:'그만두기',
  ready:'준비',go:'발사!',dodgeGo:'피해!',
  self:'자기를 쐈다!',jam:'폭발!',noReach:'과녁까지 닿지 않았다…',none:'쏘지 않았다',okHead:'좋은 총이다',
  selfSub:'총구가 자기를 향하고 있었다. 다시 그리자',jamSub:'너무 각져서 총알이 막혔다. 다시 그리자',noReachSub:'1발 이상이 과녁이 있는 곳까지 닿는 총만 등록할 수 있습니다',noneSub:'방아쇠를 눌러 쏘세요',okSub:'이 총을 등록하면 암호를 받습니다',
  gNameL:'총 이름 (직접 지을 수 있다)',defName:'이름 없는 총',reg:'이 총 등록하기',regging:'등록 중…',regErr:'등록하지 못했습니다. 잠시 후 다시',regWait:'연속 등록은 15초쯤 기다려 주세요',
  regDone:'등록했습니다',codeL:'암호',xGun:'X에 총 올리기',copy:'암호 복사',copied:'복사했습니다',selfTry:'직접 맞아 보기',
  retest:'다시 쏘기',redraw:'다시 그리기',top:'타이틀로',
- ctl:'화면 좌우 누르기＝이동 / 위로 쓸기＝점프 / 아래로 쓸기＝앉기 (PC는 방향키)',
+ ctl:'좌우로 밀어 이동　위아래로 쓸거나 버튼으로 점프·앉기',
  gunBy:'「{n}」',dodged:'다 피했다!',hit:'맞았다…',shooterSelf:'쏜 사람이 자기를 쐈다',
  resNote:'암호: {c}',ownGun:'자기 총은 기록되지 않습니다',already:'이 총의 기록은 첫 번째만 들어갑니다',sending:'기록 중…',sent:'기록했습니다',sendErr:'기록하지 못했습니다',
  kdLine:'이 총의 K/D {kd} (맞힘 {h}·피함 {d})',again:'한 번 더',next:'다음 총 (랜덤)',vid:'결과를 동영상으로',xRes:'X에 올리기',rank:'랭킹',
  rkTitle:'K/D 랭킹 (총)',rkNote:'10번 이상 플레이된 총만. K/D＝맞힌 횟수÷피한 횟수 (0회는 1로 계산). 누르면 그 총으로 피할 수 있다',rkEmpty:'아직 랭킹에 든 총이 없습니다',rkErr:'불러오지 못했습니다',kdS:'맞힘{h}·피함{d}',
  postGun:'총신을 마음대로 그린 「{n}」({f})을 만들었다. 피해 봐\n암호: {c}\n#ごジュウに',
- postDodge:'「{n}」({f})의 총알을 다 피했다\n암호: {c}\n#ごジュウに',postHit:'「{n}」({f})에 맞았다\n암호: {c}\n#ごジュウに',
+ postDodge:'「{n}」({f})의 총알 {d}발을 다 피했다 (아슬아슬 {g}번)\n암호: {c}\n#ごジュウに',postHit:'「{n}」({f})의 총알을 {d}발 피했지만 맞았다\n암호: {c}\n#ごジュウに',
  postSelf:'총신을 마음대로 그렸더니 자기를 쐈다\n#ごジュウに',postJam:'총신을 마음대로 그렸더니 폭발했다\n#ごジュウに',
  making:'동영상 만드는 중…',vfail:'이 기기에서는 동영상을 만들 수 없습니다',vmade:'「공유」에서 X 앱을 고르면 동영상과 함께 올릴 수 있습니다',shareHint:'저장한 뒤 X에 올려 주세요',vShare:'공유 (X 앱으로)',vSave:'저장',vX:'X에 올리기 (글만)',
  nk:{b7:'일곱머리',b4:'천수',b2:'두갈래',cl:'무한회랑',sp:'소용돌이',l3:'삼중스프링',l1:'스프링',wv:'꿀렁',cn:'지그재그',up:'포물선',dn:'튕김',cv:'휘는',lg:'너무긴',sh:'평범한',st:'곧은',tw:'뒤틀린',sd:'옆으로',ho:'구멍난',fx:'초굵은',dw:'쌍',oh:'머리위',cr:'가랑이',bk:'등뒤',sep:' ',suf:' 총'},
@@ -418,23 +431,52 @@ const SND={
  win(){if(!ac())return;const n=AC.currentTime;[523,659,784,1047].forEach((f,i)=>tone(n+i*.09,f,.3,'triangle',.1));},
  lose(){if(!ac())return;const n=AC.currentTime;tone(n,330,.2,'triangle',.1);tone(n+.2,247,.4,'triangle',.1);}};
 
+// 音楽：よける・試し撃ちのあいだに流す（少し先まで予約して鳴らす）
+let bgm=null;
+function bgmStart(kind){if(PV||!ac())return;bgmStop();const out=AC.createGain();out.gain.setValueAtTime(.0001,AC.currentTime);out.gain.exponentialRampToValueAtTime(kind==='dodge'?.5:.36,AC.currentTime+.6);out.connect(master);
+ const st={next:AC.currentTime+.08,step:0,out};const sp=60/(kind==='dodge'?148:128)/4;const bass=[33,33,36,33,31,31,29,28];
+ const T=(at,f,d,type,v,f2)=>{const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,at);if(f2)o.frequency.exponentialRampToValueAtTime(f2,at+d);g.gain.setValueAtTime(.0001,at);g.gain.exponentialRampToValueAtTime(v,at+.005);g.gain.exponentialRampToValueAtTime(.0001,at+d);o.connect(g).connect(out);o.start(at);o.stop(at+d+.02);};
+ const Nz=(at,d,f,v)=>{const s2=AC.createBufferSource();s2.buffer=nbuf();const fl=AC.createBiquadFilter();fl.type='highpass';fl.frequency.value=f;const g=AC.createGain();g.gain.setValueAtTime(.0001,at);g.gain.exponentialRampToValueAtTime(v,at+.003);g.gain.exponentialRampToValueAtTime(.0001,at+d);s2.connect(fl).connect(g).connect(out);s2.start(at);s2.stop(at+d+.02);};
+ const mf=m=>440*Math.pow(2,(m-69)/12);
+ st.timer=setInterval(()=>{if(!AC)return;if(st.next<AC.currentTime-.05)st.next=AC.currentTime+.02;
+  while(st.next<AC.currentTime+.12){const at=st.next,i=st.step%16,bar=Math.floor(st.step/16);
+   if(i%4===0)T(at,120,.26,'sine',.34,45);if(i===4||i===12)Nz(at,.12,1500,.18);Nz(at,.03,7000,i%2?.03:.055);
+   if(i%2===0){const m=bass[(bar*2+(i>>3))%8];T(at,mf(m+12),sp*1.8,'sawtooth',.06,mf(m+12)*.98);}
+   if(kind==='dodge'&&i%4===2)T(at,mf(69+[0,3,7,10][bar%4]),.09,'square',.02);
+   st.step++;st.next+=sp;}},25);bgm=st;}
+function bgmStop(){if(!bgm)return;clearInterval(bgm.timer);const o=bgm.out;bgm=null;try{o.gain.cancelScheduledValues(AC.currentTime);o.gain.setTargetAtTime(.0001,AC.currentTime,.12);setTimeout(()=>{try{o.disconnect();}catch(_){}},800);}catch(e){}}
+
 // ===== 3D =====
 const R=new THREE.WebGLRenderer({canvas:$('c'),antialias:true,preserveDrawingBuffer:OGP||ICON||!!PV});
 R.setPixelRatio(Math.min(2,devicePixelRatio||1));R.outputColorSpace=THREE.SRGBColorSpace;
-const SC=new THREE.Scene();SC.background=new THREE.Color(0xbfe3f5);SC.fog=new THREE.Fog(0xbfe3f5,28,70);
+const SC=new THREE.Scene();SC.background=new THREE.Color(0x0c0f15);SC.fog=new THREE.Fog(0x0c0f15,16,42);
 const CAM=new THREE.PerspectiveCamera(50,1,.05,200);
-SC.add(new THREE.HemisphereLight(0xffffff,0x9a8a6a,1.15));
-const SUN=new THREE.DirectionalLight(0xffffff,1.5);SUN.position.set(5,10,6);SC.add(SUN);
+SC.add(new THREE.HemisphereLight(0x9fb4ff,0x1a140e,.75));
+const SUN=new THREE.DirectionalLight(0xffffff,.7);SUN.position.set(2,8,4);SC.add(SUN);
 const M=(c,o)=>new THREE.MeshStandardMaterial({color:c,roughness:.55,metalness:0,...(o||{})});
 const RB=(w,h,d,r)=>new RoundedBoxGeometry(w,h,d,4,r==null?Math.min(w,h,d)*.25:r);
 const L=S.L;
-// 射撃場
-{const g=new THREE.Mesh(new THREE.PlaneGeometry(200,200),M(0x9cc47a));g.rotation.x=-Math.PI/2;g.position.y=-.01;SC.add(g);
- const lane=new THREE.Mesh(RB(7.4,.06,L+7,.03),M(0xded6c4));lane.position.set(0,0,-L/2+.5);SC.add(lane);
- for(const x of [-3.7,3.7]){const w=new THREE.Mesh(RB(.35,1.1,L+7,.12),M(0xc8915a));w.position.set(x,.55,-L/2+.5);SC.add(w);}
- for(let i=1;i<=4;i++){const ln=new THREE.Mesh(new THREE.BoxGeometry(7.2,.012,.05),M(0xffffff));ln.position.set(0,.035,-i*L/4);SC.add(ln);}
- const berm=new THREE.Mesh(RB(16,4.5,3,1.2),M(0xa9784c));berm.position.set(0,1.8,-L-7.5);SC.add(berm);
- for(let i=0;i<8;i++){const tr=new THREE.Group();const tk=new THREE.Mesh(RB(.35,1.4,.35,.12),M(0x8a5a32));tk.position.y=.7;const lf=new THREE.Mesh(new THREE.SphereGeometry(1.1,18,14),M(0x5aa64a));lf.position.y=2;tr.add(tk,lf);const sd=i%2?1:-1;tr.position.set(sd*(6+(i%3)),0,-2-i*2.4);SC.add(tr);}}
+const GLOW=(c,o)=>new THREE.MeshBasicMaterial({color:c,...(o||{})});
+// 室内の射撃場（せまいレーン・天井の照明・仕切り・奥の壁）
+const LANEW=2.35;
+{const fl=new THREE.Mesh(new THREE.BoxGeometry(LANEW*2+.6,.1,L+11),M(0x2b2f36,{roughness:.85}));fl.position.set(0,-.05,-L/2-.7);SC.add(fl);
+ for(const sd of [-1,1]){const ln=new THREE.Mesh(new THREE.BoxGeometry(.05,.012,L+6),GLOW(0xff8a1f));ln.position.set(sd*(S.XMAX+.38),.006,-L/2+.3);SC.add(ln);
+  const w=new THREE.Mesh(new THREE.BoxGeometry(.25,3.6,L+11),M(0x252932,{roughness:.9}));w.position.set(sd*(LANEW+.12),1.8,-L/2-.7);SC.add(w);
+  for(let z=2;z>-L-6;z-=1.2){const pn=new THREE.Mesh(RB(.08,2.6,1.05,.03),M(z%2.4?0x343a45:0x2e333d,{roughness:1}));pn.position.set(sd*(LANEW-.02),1.55,z);SC.add(pn);}
+  const st=new THREE.Mesh(new THREE.BoxGeometry(.06,.05,14.2),GLOW(0x9fd8ff));st.position.set(sd*1.15,3.33,-5.6);SC.add(st);}
+ const ce=new THREE.Mesh(new THREE.BoxGeometry(LANEW*2+.6,.12,L+11),M(0x15181e));ce.position.set(0,3.42,-L/2-.7);SC.add(ce);
+ for(let z=-1.5;z>-L+.5;z-=3){const bf=new THREE.Mesh(new THREE.BoxGeometry(LANEW*2,.45,.12),M(0x1c2027));bf.position.set(0,3.12,z);SC.add(bf);
+  const hz=new THREE.Mesh(new THREE.BoxGeometry(LANEW*2,.05,.13),GLOW(0xffc83a));hz.position.set(0,2.88,z);SC.add(hz);}
+ for(let i=1;i<=3;i++){const mk=new THREE.Mesh(new THREE.BoxGeometry(S.XMAX*2+.7,.01,.04),GLOW(0x6f7c90));mk.position.set(0,.007,-i*L/4);SC.add(mk);}
+ const bw=new THREE.Mesh(new THREE.BoxGeometry(LANEW*2+.6,3.6,.3),M(0x1d2026));bw.position.set(0,1.8,-L-6.2);SC.add(bw);
+ for(let i=0;i<5;i++){const pl=new THREE.Mesh(RB(LANEW*2,.55,.08,.03),M(0x2c3038,{metalness:.4,roughness:.5}));pl.position.set(0,.4+i*.62,-L-5.95);pl.rotation.x=-.5;SC.add(pl);}
+ const rail=new THREE.Mesh(new THREE.BoxGeometry(S.XMAX*2+.6,.03,.08),GLOW(0xff3b2f));rail.position.set(0,.02,-L+.25);SC.add(rail);
+ const rear=new THREE.Mesh(new THREE.BoxGeometry(LANEW*2+.6,3.6,.3),M(0x1a1d23));rear.position.set(0,1.8,4.6);SC.add(rear);
+ const sign=new THREE.Mesh(new THREE.BoxGeometry(1.4,.32,.05),GLOW(0xff3b2f));sign.position.set(0,2.6,-L-6.0);SC.add(sign);}
+const SPOT_T=new THREE.SpotLight(0xfff2dc,40,14,.55,.5,1.2);SPOT_T.position.set(0,3.3,-L+1.5);SPOT_T.target.position.set(0,.8,-L);SC.add(SPOT_T,SPOT_T.target);
+const SPOT_B=new THREE.SpotLight(0xfff4e0,26,10,.65,.6,1.2);SPOT_B.position.set(0,3.25,-L-3.2);SPOT_B.target.position.set(0,.9,-L);SC.add(SPOT_B,SPOT_B.target);
+const SPOT_S=new THREE.SpotLight(0xdfe9ff,26,9,.6,.6,1.2);SPOT_S.position.set(0,3.3,1.2);SPOT_S.target.position.set(0,1,-.5);SC.add(SPOT_S,SPOT_S.target);
+const FLASH=new THREE.PointLight(0xffb040,0,6,1.5);SC.add(FLASH);let flashT=0;
 
 // 撃つ人（棒人間）
 const SHOOT=new THREE.Group();SC.add(SHOOT);
@@ -497,9 +539,12 @@ function paperMark(u,w,hole){const g=PG,x=PX(u),y=PY(w);g.save();silPath(g);g.cl
 function paperPose(P){PAPER.position.set(P.x,P.y,-L);PAPER.rotation.y=P.yaw;PAPER.userData.sheet.scale.y=P.hs;}
 // 弾・予測線・火花
 const FX=new THREE.Group();SC.add(FX);
-const BUL_G=new THREE.SphereGeometry(1,12,10),BUL_M=new THREE.MeshStandardMaterial({color:0xffd23a,emissive:0xff9a00,emissiveIntensity:.9,roughness:.3});
-const LINE_M=new THREE.MeshBasicMaterial({color:0xff1a1a,transparent:true,opacity:.85,depthWrite:false});
-const TRAIL_M=new THREE.LineBasicMaterial({color:0xfff0a0,transparent:true,opacity:.8});
+const BUL_G=new THREE.SphereGeometry(1,12,10),BUL_M=new THREE.MeshBasicMaterial({color:0xfff6c8});
+const GLOW_TEX=(()=>{const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.25,'rgba(255,210,120,.85)');gr.addColorStop(.6,'rgba(255,140,40,.25)');gr.addColorStop(1,'rgba(255,120,20,0)');g.fillStyle=gr;g.fillRect(0,0,64,64);const t2=new THREE.CanvasTexture(c);t2.colorSpace=THREE.SRGBColorSpace;return t2;})();
+const GLOW_M=new THREE.SpriteMaterial({map:GLOW_TEX,color:0xffb060,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true});
+const FLASH_M=new THREE.SpriteMaterial({map:GLOW_TEX,color:0xffe0a0,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true});
+const LINE_M=new THREE.MeshBasicMaterial({color:0xff2a2a,transparent:true,opacity:.9,depthWrite:false,blending:THREE.AdditiveBlending});
+const TRAIL_M=new THREE.LineBasicMaterial({color:0xffb050,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false});
 function clearFX(){FX.children.slice().forEach(c=>{FX.remove(c);if(c.geometry&&c.geometry!==BUL_G)c.geometry.dispose();if(c.material&&c.material.userData.tmp)c.material.dispose();});}
 const sparks=[];
 function spark(p,col,n,sp){for(let i=0;i<n;i++){const m=new THREE.Mesh(BUL_G,new THREE.MeshBasicMaterial({color:col,transparent:true}));m.material.userData.tmp=1;m.scale.setScalar(.03+Math.random()*.04);m.position.set(p[0],p[1],p[2]);FX.add(m);
@@ -508,12 +553,34 @@ function stepSparks(dt){for(let i=sparks.length-1;i>=0;i--){const s=sparks[i];s.
 
 // ===== 画面の大きさ =====
 let VW=innerWidth,VH=innerHeight;
-function resize(){VW=innerWidth;VH=innerHeight;if(!OGP&&!ICON){R.setSize(VW,VH,false);CAM.aspect=VW/VH;CAM.updateProjectionMatrix();}if(mode==='draw')drawResize();}
+// 描いている指を離すまでは、画面の大きさを変えない（アプリの中でバーが動いても線がずれないように）
+const INAPP=/Twitter|FBAN|FBAV|FB_IAB|Instagram|Line\/|TikTok|musical_ly|Bytedance|Snapchat|; wv\)/i.test(navigator.userAgent||'');
+const FINE=!!(window.matchMedia&&matchMedia('(pointer:fine)').matches),COARSE=!!(window.matchMedia&&matchMedia('(pointer:coarse)').matches);
+const dcDown=new Set();let pendRs=false,inShown=false,inWant=false;
+function resize(){const nw=innerWidth,nh=innerHeight,typing=/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||'');
+ if(mode==='draw'&&COARSE&&VW&&nw===VW&&Math.abs(nh-VH)>24&&!typing)inWant=true;
+ if(mode==='draw'&&dcDown.size){pendRs=true;return;}
+ VW=nw;VH=nh;if(!OGP&&!ICON){R.setSize(VW,VH,false);CAM.aspect=VW/VH;CAM.updateProjectionMatrix();}if(mode==='draw')drawResize();
+ if(inWant)showInapp();}
 addEventListener('resize',resize);
+$('dc').addEventListener('pointerdown',e=>dcDown.add(e.pointerId),true);
+{const up=e=>{if(!dcDown.delete(e.pointerId))return;if(!dcDown.size&&(pendRs||inWant)){pendRs=false;resize();}};addEventListener('pointerup',up,true);addEventListener('pointercancel',up,true);}
+// ページそのものは指で動かさない（説明書やランキングのように、中が動く所だけは動かせる）
+const canScroll=el=>{for(;el&&el.nodeType===1&&el!==document.body;el=el.parentElement){const o=getComputedStyle(el).overflowY;if((o==='auto'||o==='scroll')&&el.scrollHeight>el.clientHeight+1)return true;}return false;};
+document.addEventListener('touchmove',e=>{if(e.touches.length>1||!canScroll(e.target))e.preventDefault();},{passive:false});
+document.addEventListener('gesturestart',e=>e.preventDefault());
+function showInapp(){inWant=false;if(PV||inShown||mode!=='draw')return;inShown=true;$('inPanel').hidden=false;}
+$('inOk').onclick=()=>{$('inPanel').hidden=true;};
+$('inCopy').onclick=async()=>{const u=location.href;let ok=false;try{await navigator.clipboard.writeText(u);ok=true;}catch(e){}
+ if(!ok){try{const ta=document.createElement('textarea');ta.value=u;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove();}catch(e){}}
+ toast(ok?t('inDone'):u,ok?2600:7000);};
+let shakeT=0,shakeA=0;function shake(a,t){shakeA=Math.max(shakeA*(shakeT>0?1:0),a);shakeT=Math.max(shakeT,t);}
+let camX=0;
 function camFor(kind,T,px){const por=VW<VH;px=px||0;
- if(kind==='dodge'){CAM.fov=por?64:52;CAM.position.set(px*.85,3.4,-L-(por?4.2:4.6));CAM.lookAt(px*.55,por?.95:.85,-L+8);}
- else if(kind==='test'){CAM.fov=por?62:48;CAM.position.set((por?2.3:2.6)+px*.85,por?2.5:2.4,por?3.4:3.0);CAM.lookAt(-.4+px*.6,1.0,por?-3.5:-4.5);}
- else{const a=T*.12;CAM.fov=55;CAM.position.set(Math.sin(a)*5.5,3.2,-L*.4+Math.cos(a)*9);CAM.lookAt(0,1.1,-L*.55);}
+ if(kind==='dodge'){const tg=px*(por?.92:.6);camX=T===0?tg:camX+(tg-camX)*.2;CAM.fov=por?62:50;CAM.position.set(camX,2.75,-L-(por?3.5:3.9));CAM.lookAt(camX*.7,por?1.05:.95,-L+8);}
+ else if(kind==='test'){CAM.fov=por?62:48;CAM.position.set(1.45+px*.6,por?2.45:2.3,por?3.4:3.0);CAM.lookAt(-.25+px*.5,1.0,por?-3.8:-4.8);}
+ else{const a=T*.22;CAM.fov=58;CAM.position.set(Math.sin(a)*1.6,2.3+Math.sin(a*.7)*.3,3.6);CAM.lookAt(Math.sin(a)*.3,1.15,-L*.6);}
+ if(shakeT>0){CAM.position.x+=(Math.random()-.5)*shakeA*shakeT;CAM.position.y+=(Math.random()-.5)*shakeA*shakeT;}
  CAM.updateProjectionMatrix();}
 
 // ===== 画面 =====
@@ -521,10 +588,10 @@ const PANELS=['title','regPanel','resPanel','rankPanel','vidPanel'];
 function show(id){PANELS.forEach(p=>$(p).hidden=(p!==id));}
 function big(h,cls){const b=$('big');b.innerHTML=h||'';b.className=cls||'';if(h){void b.offsetWidth;b.classList.add('pop');}}
 let mode='title',mT=0;
-function hideHud(){['dTop','dBot','hudTop','tUI','ctl','quit','dc','askPanel','manPanel'].forEach(i=>$(i).hidden=true);}
+function hideHud(){['dTop','dBot','hudTop','tUI','ctl','quit','dc','askPanel','manPanel','dBtns'].forEach(i=>$(i).hidden=true);$('warn').style.opacity=0;bgmStop();}
 function applyLang(){document.documentElement.lang=lang==='zh'?'zh-Hant':lang;document.title=t('title');
  $('tTitle').innerHTML=(lang==='en'?'GO<em>JUU</em>NI':'ご<em>ジュウ</em>に')+'<small>'+esc(t('sub'))+'</small>';$('tHow').innerHTML=t('how');
- const ids={bMan:'man',dMan:'man',tDone:'tDone',bShoot:'bShoot',tTarget:'tTarget',bCode:'bCode',bRandom:'bRandom',bRank:'bRank',dUndo:'undo',dClear:'clear',dBack:'back',mDraw:'mDraw',mBend:'mBend',mPart:'mPart',vSide:'vSide',vTop:'vTop',gReg:'reg',gX:'xGun',gCopy:'copy',gSelf:'selfTry',gRetest:'retest',gRedraw:'redraw',gTop:'top',gVid:'vid',gXf:'xRes',rAgain:'again',rNext:'next',rVid:'vid',rX:'xRes',rRank:'rank',rTop:'top',rankBack:'back',vShare:'vShare',vSave:'vSave',vX:'vX',vBack:'back',quit:'quit'};
+ const ids={bMan:'man',dMan:'man',bJump:'jumpB',bCrouch:'crouchB',inT:'inT',inB:'inB',inCopy:'inCopy',inOk:'inOk',tDone:'tDone',bShoot:'bShoot',tTarget:'tTarget',bCode:'bCode',bRandom:'bRandom',bRank:'bRank',dUndo:'undo',dClear:'clear',dBack:'back',mDraw:'mDraw',mBend:'mBend',mPart:'mPart',vSide:'vSide',vTop:'vTop',gReg:'reg',gX:'xGun',gCopy:'copy',gSelf:'selfTry',gRetest:'retest',gRedraw:'redraw',gTop:'top',gVid:'vid',gXf:'xRes',rAgain:'again',rNext:'next',rVid:'vid',rX:'xRes',rRank:'rank',rTop:'top',rankBack:'back',vShare:'vShare',vSave:'vSave',vX:'vX',vBack:'back',quit:'quit'};
  for(const k in ids)$(k).textContent=t(ids[k]);
  $('codeIn').placeholder=t('codePh');$('gNameL').textContent=t('gNameL');$('gName').placeholder=t('defName');$('gCodeL').textContent=t('codeL');
  const LB=$('langs');LB.innerHTML='';for(const [k,nm] of LANGS){const b=document.createElement('button');b.textContent=nm;if(k===lang)b.className='on';b.onclick=()=>{lang=k;ls.set('gj_lang',k);applyLang();};LB.appendChild(b);}}
@@ -539,7 +606,7 @@ let DS=100,AREA={x:0,y:0,w:100,h:100},MINI=null;
 const strokesOf=h=>hands[h].strokes;
 const two=()=>hands[1].strokes.length>0;
 const frameOf=(h,sx)=>{const g=S.GRIPS[grip];return S.frame(0,0,0,S.originOf(grip,h,two()||h===1,sx||0),g.y0,sx||0);};
-function drawResize(){const dpr=Math.min(2,devicePixelRatio||1);DC.width=VW*dpr;DC.height=VH*dpr;DG.setTransform(dpr,0,0,dpr,0,0);
+function drawResize(){const dpr=Math.min(2,devicePixelRatio||1);DC.width=VW*dpr;DC.height=VH*dpr;DC.style.width=VW+'px';DC.style.height=VH+'px';DG.setTransform(dpr,0,0,dpr,0,0);
  const top=$('dTop').offsetHeight+4,bot=$('dBot').offsetHeight+4;AREA={x:0,y:top,w:VW,h:Math.max(140,VH-top-bot)};
  DS=Math.min(VW/3.9,AREA.h/2.9);const mw=Math.min(VW*.36,190),mh=Math.min(AREA.h*.3,150);MINI={x:VW-mw-6,y:AREA.y+AREA.h-mh-6,w:mw,h:mh};renderDraw();}
 // 画面の点と、描く面の点（前 a・上 b・右 c）
@@ -653,7 +720,7 @@ $('dBack').onclick=()=>showTitle();
 function ask(q,sub,a,b,fa,fb,c,fc){const P=$('askPanel');P.hidden=false;$('askQ').textContent=q;$('askS').textContent=sub||'';$('askA').textContent=a;$('askB').textContent=b;$('askC').hidden=!c;if(c){$('askC').textContent=c;$('askC').onclick=()=>fc();}$('askA').onclick=()=>{P.hidden=true;fa();};$('askB').onclick=()=>{P.hidden=true;fb();};}
 $('dNext').onclick=()=>{ac();const other=view==='side'?'top':'side';if(visited[other]){startTest();return;}
  ask(t(other==='top'?'askTop':'askSide'),t('askSub2'),t('yesDraw'),t('noTest'),()=>{setView(other);dmode='bend';toolsUi();},()=>startTest());};
-function startDraw(keep){mode='draw';hideHud();show(null);big('');if(!keep){hands=newHands();hand=0;grip=0;hist=[];visited={side:0,top:0};dmode='draw';thick=1;}
+function startDraw(keep){mode='draw';if(INAPP&&!inShown)setTimeout(showInapp,350);hideHud();show(null);big('');if(!keep){hands=newHands();hand=0;grip=0;hist=[];visited={side:0,top:0};dmode='draw';thick=1;}
  $('dTop').hidden=$('dBot').hidden=$('dc').hidden=false;toolsUi();drawResize();updStats();
  if(!keep)ask(t('askFirst'),t('askSub1'),t('firstSide'),t('firstTop'),()=>setView('side'),()=>setView('top'),t('readMan'),()=>openMan(1));}
 $('bShoot').onclick=()=>{ac();startDraw(false);};
@@ -667,11 +734,12 @@ function makeGun(spec){const hs=[0,1].map(h=>{const src=(spec.hands&&spec.hands[
  return {hands:hs,A,two,grip:spec.grip||0,th:0,f:fs.slice(0,3).join(''),sh:spec.sh||[],mv:spec.mv||[]};}
 function newWorld(kind,gun,shots,count){return {kind,gun,shots:shots.slice(),si:0,t:-count,P:S.newPaper(),fired:[],over:null,overT:0,log:[],hits:0,lastAim:[null,null],self:0,jamT:null,ev:[],sx:0,mv:[]};}
 const mvAt=(mv,t)=>{if(!mv||!mv.length)return 0;const f=clamp(t/.1,0,mv.length-1),i=Math.floor(f),k=f-i;return (mv[i]+(mv[Math.min(mv.length-1,i+1)]-mv[i])*k)/100;};
-function fireShot(Wd){const [cx,cy]=S.paperCenter(Wd.P);const g=Wd.gun,gp=S.GRIPS[g.grip||0];
- for(const h of (g.two?[0,1]:[0])){const o=S.originOf(g.grip||0,h,g.two,Wd.sx);const sh=S.fire(g.A[h],0,cx,cy,Wd.t,o,gp.y0,Wd.sx);sh.vis=[];sh.hand=h;Wd.fired.push(sh);Wd.lastAim[h]=sh.aim;Wd.ev.push(['trig',sh]);
+function fireShot(Wd){const g=Wd.gun,gp=S.GRIPS[g.grip||0];
+ for(const h of (g.two?[0,1]:[0])){const [cx,cy]=S.leadPoint(Wd.P,g.A[h]);const o=S.originOf(g.grip||0,h,g.two,Wd.sx);const sh=S.fire(g.A[h],0,cx,cy,Wd.t,o,gp.y0,Wd.sx);sh.vis=[];sh.hand=h;Wd.fired.push(sh);Wd.lastAim[h]=sh.aim;Wd.hold=Wd.hold||[0,0];Wd.hold[h]=Math.max(Wd.t+.45,sh.bullets.reduce((m,b)=>Math.max(m,b.tex),Wd.t)+.25);Wd.ev.push(['trig',sh]);
   for(const b of sh.bullets){b.k=0;b.done=false;b.out=false;}if(sh.jam&&Wd.jamT==null)Wd.jamT=sh.jam.t;}}
 function wTick(Wd,bits){Wd.log.push(bits);
- if(Wd.t>=0&&Wd.kind==='dodge'&&!Wd.over)S.stepPaper(Wd.P,bits,DT);
+ if(Wd.kind==='dodge'&&!Wd.over)S.stepPaper(Wd.P,bits,DT);
+ else if(Wd.kind==='test'&&!Wd.over&&Wd.t>=0){const tx=Math.sin(Wd.t*Math.PI*2/4.5)*.8;S.stepPaper(Wd.P,S.dragInput(tx),DT);}
  if(Wd.kind==='dodge')Wd.sx=mvAt(Wd.gun.mv,Wd.t);
  else if(Wd.t>=0&&!Wd.over&&!Wd.closed&&Wd.t<S.TESTWIN){const m=((bits&1)?1:0)-((bits&2)?1:0);Wd.sx=clamp(Wd.sx+m*S.WALK*DT,-S.SXMAX,S.SXMAX);if(Wd.mv.length<=Math.floor(Wd.t/.1+1e-6))Wd.mv.push(Math.round(Wd.sx*100));}
  if(!Wd.over||Wd.over==='hit'){while(Wd.si<Wd.shots.length&&Wd.t>=Wd.shots[Wd.si]&&Wd.jamT==null){fireShot(Wd);Wd.si++;}}
@@ -689,47 +757,75 @@ function wTick(Wd,bits){Wd.log.push(bits);
  Wd.t+=DT;}
 // 見た目：弾・予測線
 const v3=new THREE.Vector3();const LINE_T=.2;
-function shotVisuals(sh){sh.vis=sh.bullets.map(b=>{const m=new THREE.Mesh(BUL_G,BUL_M);m.scale.setScalar(Math.max(.035,b.r*.9));m.visible=false;FX.add(m);
+function shotVisuals(sh){sh.vis=sh.bullets.map(b=>{const m=new THREE.Mesh(BUL_G,BUL_M);m.scale.setScalar(Math.max(.04,b.r));m.visible=false;FX.add(m);const gl=new THREE.Sprite(GLOW_M);gl.scale.setScalar(Math.max(.42,b.r*9));gl.visible=false;FX.add(gl);
   const pts=[];for(let i=0;i<b.pts.length;i+=3)pts.push(new THREE.Vector3(b.pts[i][0],b.pts[i][1],b.pts[i][2]));
   let line=null;if(pts.length>=2){const ex=S.toWorld(sh.fr,b.ex.p[0],b.ex.p[1],b.ex.p[2]);pts.unshift(new THREE.Vector3(...ex));line=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),Math.min(160,pts.length*2),.03,5,false),LINE_M.clone());line.material.userData.tmp=1;line.renderOrder=4;FX.add(line);}
-  const tg=new THREE.BufferGeometry();tg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(30),3));const trail=new THREE.Line(tg,TRAIL_M);trail.visible=false;trail.frustumCulled=false;FX.add(trail);
-  return {m,line,trail};});}
-function renderWorld(Wd){if(!Wd)return;paperPose(Wd.P);placeGun(Wd.gun,Wd.sx,Wd.lastAim,Wd.over==='self'&&Wd.kind==='test'?Math.min(1.3,(Wd.t-Wd.overT)*3):0);
+  const tg=new THREE.BufferGeometry();tg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(48),3));const trail=new THREE.Line(tg,TRAIL_M);trail.visible=false;trail.frustumCulled=false;FX.add(trail);
+  return {m,gl,line,trail};});}
+function trackAims(Wd){const g=Wd.gun,gp=S.GRIPS[g.grip||0];if(!Wd.vis){Wd.vis=[null,null];Wd.hold=Wd.hold||[0,0];Wd.aimT=[null,null];Wd.aimN=[-99,-99];}const out=[null,null];
+ for(const h of (g.two?[0,1]:[0])){
+  if(Wd.lastAim[h]&&(Wd.t<Wd.hold[h]||Wd.over)){out[h]=Wd.lastAim[h];Wd.vis[h]={yaw:Wd.lastAim[h].yaw,pitch:Wd.lastAim[h].pitch};continue;}
+  if(!Wd.aimT[h]||Math.abs(Wd.t-Wd.aimN[h])>.2){const lp=S.leadPoint(Wd.P,g.A[h]);Wd.aimT[h]=S.aimAt(g.A[h],0,lp[0],lp[1],S.originOf(g.grip||0,h,g.two,Wd.sx),gp.y0,Wd.sx);Wd.aimN[h]=Wd.t;}
+  const v=Wd.vis[h]||{yaw:0,pitch:0},a=Wd.aimT[h];v.yaw+=(a.yaw-v.yaw)*.14;v.pitch+=(a.pitch-v.pitch)*.14;Wd.vis[h]=v;out[h]=v;}
+ return out;}
+let lineOn=false;
+function renderWorld(Wd){if(!Wd)return;paperPose(Wd.P);lineOn=false;placeGun(Wd.gun,Wd.sx,trackAims(Wd),Wd.over==='self'&&Wd.kind==='test'?Math.min(1.3,(Wd.t-Wd.overT)*3):0);
  for(const sh of Wd.fired){if(!sh.vis.length)shotVisuals(sh);
   sh.bullets.forEach((b,i)=>{const V=sh.vis[i];
    // 予測線：弾が出る 0.2 秒前から、出るまでの一瞬だけ
-   if(V.line){const ls=Math.max(sh.t,b.tex-LINE_T);const k=Wd.t<ls?0:Wd.t<b.tex?1:Math.max(0,1-(Wd.t-b.tex)/.1);V.line.visible=k>0;V.line.material.opacity=.85*k;}
+   if(V.line){const ls=Math.max(sh.t,b.tex-LINE_T);const k=Wd.t<ls?0:Wd.t<b.tex?1:Math.max(0,1-(Wd.t-b.tex)/.1);V.line.visible=k>0;V.line.material.opacity=.9*k;if(k>.5)lineOn=true;}
+   V.gl.visible=false;
    if(Wd.jamT!=null&&Wd.t>=Wd.jamT){V.m.visible=false;V.trail.visible=false;return;}
    if(Wd.t<b.tex){const ip=b.inside;const tt=Wd.t-sh.t;let j=0;while(j<ip.length-1&&ip[j+1][3]<tt)j++;const a=ip[j],c=ip[Math.min(ip.length-1,j+1)];const k=c[3]>a[3]?clamp((tt-a[3])/(c[3]-a[3]),0,1):0;
-    const w=S.toWorld(sh.fr,lerp(a[0],c[0],k),lerp(a[1],c[1],k),lerp(a[2],c[2],k));V.m.position.set(w[0],w[1],w[2]);V.m.visible=true;V.trail.visible=false;return;}
+    const w=S.toWorld(sh.fr,lerp(a[0],c[0],k),lerp(a[1],c[1],k),lerp(a[2],c[2],k));V.m.position.set(w[0],w[1],w[2]);V.m.visible=true;V.gl.position.copy(V.m.position);V.gl.visible=true;V.trail.visible=false;return;}
    if(b.done&&(b.k>=b.pts.length||b.hitPaper)){V.m.visible=false;V.trail.visible=false;return;}
-   const k=Math.max(0,b.k-1),q=b.pts[k];if(!q){V.m.visible=false;return;}V.m.position.set(q[0],q[1],q[2]);V.m.visible=true;
-   const arr=V.trail.geometry.attributes.position.array;for(let n=0;n<10;n++){const qq=b.pts[Math.max(0,k-n*2)];arr[n*3]=qq[0];arr[n*3+1]=qq[1];arr[n*3+2]=qq[2];}V.trail.geometry.attributes.position.needsUpdate=true;V.trail.visible=true;});}}
+   const k=Math.max(0,b.k-1),q=b.pts[k];if(!q){V.m.visible=false;return;}V.m.position.set(q[0],q[1],q[2]);V.m.visible=true;V.gl.position.copy(V.m.position);V.gl.visible=true;
+   const arr=V.trail.geometry.attributes.position.array;for(let n=0;n<16;n++){const qq=b.pts[Math.max(0,k-n*2)];arr[n*3]=qq[0];arr[n*3+1]=qq[1];arr[n*3+2]=qq[2];}V.trail.geometry.attributes.position.needsUpdate=true;V.trail.visible=true;});}}
 function handleEvents(Wd,live){for(const e of Wd.ev){const k=e[0];
   if(k==='trig'){if(live){SND.trig();const d=Math.min(...e[1].bullets.map(b=>b.tex))-e[1].t;setTimeout(()=>SND.line(),Math.max(0,d-LINE_T)*1000);}const ex=e[1].bullets[0];if(live&&ex)SND.whoosh(ex.tex-e[1].t);}
-  else if(k==='exit'){const b=e[1];const p=b.pts[0];if(p&&live){SND.shot();}if(p)spark(p,0xffd23a,6,2);}
-  else if(k==='hole'){paperMark(e[1].u,e[1].w,true);spark(e[2],0xf4ead2,14,3);if(live)SND.hit();}
-  else if(k==='graze'){paperMark(e[1].u,e[1].w,false);if(live)SND.graze();}
+  else if(k==='exit'){const b=e[1];const p=b.pts[0];if(p&&live){SND.shot();}if(p){spark(p,0xffd23a,6,2);muzzleFlash(p);if(Wd.kind==='test')shake(.06,.15);}}
+  else if(k==='hole'){paperMark(e[1].u,e[1].w,true);spark(e[2],0xf4ead2,14,3);spark(e[2],0xff4030,10,2);if(live)SND.hit();if(Wd.kind==='dodge'){shake(.25,.5);vig(1);if(live&&navigator.vibrate)try{navigator.vibrate(220);}catch(_){}}}
+  else if(k==='graze'){paperMark(e[1].u,e[1].w,false);if(live)SND.graze();if(Wd.kind==='dodge'&&!Wd.over){Wd.grazes=(Wd.grazes||0)+1;if(live){slowT=.35;popText(t('close1'));if(navigator.vibrate)try{navigator.vibrate(25);}catch(_){}}}}
   else if(k==='floor'){spark(e[1],0xcab89a,8,1.5);if(live)SND.ping();}
-  else if(k==='self'){spark(e[1],0xff4040,16,3);if(live)SND.self();}
+  else if(k==='self'){spark(e[1],0xff4040,16,3);if(live)SND.self();shake(.2,.4);}
   else if(k==='jam'){for(const P2 of PIVS){if(!P2.piv.visible)continue;const q=P2.piv.position;spark([q.x,q.y,q.z],0xff8a1f,40,5);spark([q.x,q.y,q.z],0x555555,25,3);P2.piv.visible=false;}if(live)SND.boom();}}
  Wd.ev.length=0;}
+// 演出：銃口の光・画面のゆれ・赤い光・文字・スロー
+const flashes=[];let slowT=0;
+function muzzleFlash(p){const sp=new THREE.Sprite(FLASH_M.clone());sp.material.userData.tmp=1;sp.position.set(p[0],p[1],p[2]);sp.scale.setScalar(.9);FX.add(sp);flashes.push({sp,life:0});FLASH.position.set(p[0],p[1],p[2]);FLASH.intensity=18;flashT=.12;}
+function stepFlash(dt){for(let i=flashes.length-1;i>=0;i--){const f=flashes[i];f.life+=dt;f.sp.material.opacity=Math.max(0,1-f.life/.14);f.sp.scale.setScalar(.9+f.life*4);if(f.life>.14){FX.remove(f.sp);f.sp.material.dispose();flashes.splice(i,1);}}
+ if(flashT>0){flashT-=dt;FLASH.intensity=Math.max(0,flashT/.12)*18;}else FLASH.intensity=0;if(shakeT>0)shakeT=Math.max(0,shakeT-dt);if(slowT>0)slowT=Math.max(0,slowT-dt);}
+function vig(k){const v=$('vig');v.style.transition='none';v.style.opacity=k;void v.offsetWidth;v.style.transition='opacity .6s';v.style.opacity=0;}
+function popText(h){const e=$('pop');e.innerHTML=h;e.classList.remove('go');void e.offsetWidth;e.classList.add('go');}
 // 入力（よける）
-const keys={};const ptrs=new Map();let jumpPulse=0;
+const keys={};const ptrs=new Map();let jumpPulse=0,btnJump=0,btnCrouch=0;
 addEventListener('keydown',e=>{keys[e.key]=1;if(mode==='test'&&(e.key===' '||e.key==='Enter')){e.preventDefault();pressTrig();}if(mode==='dodge'&&['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();});
 addEventListener('keyup',e=>{keys[e.key]=0;});
-$('c').addEventListener('pointerdown',e=>{if(mode!=='dodge'&&mode!=='test')return;ac();ptrs.set(e.pointerId,{x0:e.clientX,y0:e.clientY,t0:performance.now(),kind:'move',side:e.clientX<VW/2?-1:1});});
-$('c').addEventListener('pointermove',e=>{const p=ptrs.get(e.pointerId);if(!p)return;const dy=e.clientY-p.y0;if(p.kind==='move'&&dy<-32){p.kind='jump';jumpPulse=.12;}else if(p.kind==='move'&&dy>32)p.kind='crouch';});
+// よける：指を左右になぞると、紙が指についてくる（画面のどこでもよい）。上にはらうとジャンプ、下にはらって押したままでしゃがむ
+const DRAG_K=1.35;// 画面の横はば1つぶんで、レーンの幅×1.35 動く
+$('c').addEventListener('pointerdown',e=>{if(mode!=='dodge'&&mode!=='test')return;ac();
+ if(mode==='test'){ptrs.set(e.pointerId,{kind:'move',side:e.clientX<VW/2?-1:1});return;}
+ const px=W?W.P.x:0;ptrs.set(e.pointerId,{kind:'drag',x0:e.clientX,y0:e.clientY,t0:performance.now(),px0:px,tx:px,flick:0});try{$('c').setPointerCapture(e.pointerId);}catch(_){}});
+$('c').addEventListener('pointermove',e=>{const p=ptrs.get(e.pointerId);if(!p||p.kind!=='drag')return;
+ const dx=e.clientX-p.x0,dy=e.clientY-p.y0;p.tx=clamp(p.px0-dx/VW*S.XMAX*2*DRAG_K,-S.XMAX,S.XMAX);
+ // 指を動かしすぎて端に当たったら、そこを新しい基準にする（引き返しがすぐ効くように）
+ if(p.tx<=-S.XMAX||p.tx>=S.XMAX){p.px0=p.tx;p.x0=e.clientX;}
+ const now=performance.now();(p.hs=p.hs||[]).push([now,e.clientX,e.clientY]);while(p.hs.length>2&&now-p.hs[0][0]>140)p.hs.shift();
+ const o=p.hs[0],vy=e.clientY-o[2],vx=e.clientX-o[1];
+ if(now-(p.fl||0)>260&&Math.abs(vy)>40&&Math.abs(vy)>Math.abs(vx)*1.3){p.fl=now;p.hs=[[now,e.clientX,e.clientY]];if(vy<0){jumpPulse=.12;p.flick=0;}else p.flick=2;}});
 const ptrEnd=e=>ptrs.delete(e.pointerId);$('c').addEventListener('pointerup',ptrEnd);$('c').addEventListener('pointercancel',ptrEnd);
+for(const [id,on] of [['bJump',v=>{btnJump=v;if(v)jumpPulse=.12;}],['bCrouch',v=>{btnCrouch=v;}]]){const b=$(id);
+ b.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();ac();on(1);b.classList.add('on');});const off=e=>{on(0);b.classList.remove('on');};b.addEventListener('pointerup',off);b.addEventListener('pointercancel',off);b.addEventListener('pointerleave',off);}
 function inputBits(){let b=0;// 画面の右＝世界の -X（bit1）、画面の左＝世界の +X（bit2）
  if(keys.ArrowRight||keys.d||keys.D)b|=1;if(keys.ArrowLeft||keys.a||keys.A)b|=2;if(keys.ArrowUp||keys.w||keys.W||keys[' '])b|=4;if(keys.ArrowDown||keys.s||keys.S)b|=8;
- for(const p of ptrs.values()){if(p.kind==='move')b|=p.side>0?1:2;else if(p.kind==='crouch')b|=8;}if(jumpPulse>0)b|=4;return b;}
-
+ let drag=null;for(const p of ptrs.values()){if(p.kind==='move')b|=p.side>0?1:2;else if(p.kind==='drag'){drag=p;if(p.flick===2)b|=8;}}
+ if(drag&&!(b&3))b|=S.dragInput(drag.tx);
+ if(jumpPulse>0||btnJump)b|=4;if(btnCrouch)b|=8;return b;}
 // 試し撃ち
 let GUN=null;// 遊んでいる銃
 function startTest(){GUN=makeGun({hands,grip});mode='test';mT=0;hideHud();show(null);clearFX();resetStage();buildGun(GUN);ptrs.clear();
  W=newWorld('test',GUN,[],2.0);acc=0;$('hudTop').hidden=false;$('hudA').textContent=t('testA');$('hudB').textContent=t('testB')+' / '+t('walkHint');$('hudC').textContent=nick(GUN.f);
- $('tUI').hidden=false;$('quit').hidden=false;updTrig();camFor('test',0);}
+ $('tUI').hidden=false;$('quit').hidden=false;updTrig();camFor('test',0);bgmStart('test');}
 function updTrig(){const n=W?S.MAXSHOT-W.shots.length:0;$('trig').innerHTML=esc(t('trig'))+'<small>'+esc(t('left',{n}))+'</small>';$('trig').disabled=!W||W.t<0||W.t>=S.TESTWIN||n<=0||!!W.over||!!W.closed;$('tDone').hidden=!W||!W.shots.length||!!W.over||!!W.closed||n<=0;}
 $('tDone').onclick=()=>{if(W&&mode==='test'&&W.shots.length){W.closed=true;updTrig();}};
 function pressTrig(){if(mode!=='test'||!W||W.over||W.closed||W.t<0||W.t>=S.TESTWIN||W.shots.length>=S.MAXSHOT)return;ac();W.shots.push(W.t+1e-9);updTrig();}
@@ -737,7 +833,7 @@ $('trig').addEventListener('pointerdown',e=>{e.preventDefault();pressTrig();});
 $('quit').onclick=()=>{if(mode==='test'){dmode='draw';startDraw(true);}else showTitle();};
 let lastCount=99;
 function countUi(Wd){if(Wd.t<0){const k=Math.ceil(-Wd.t);if(k!==lastCount){lastCount=k;big(k>1?String(k-1):t('ready'));SND.tick();}}else if(lastCount!==0){lastCount=0;big(Wd.kind==='test'?t('go'):t('dodgeGo'));SND.go();setTimeout(()=>{if(W===Wd&&!Wd.over)big('');},650);}}
-function testEnd(){const k=W.over;mode='testEnd';$('tUI').hidden=true;$('quit').hidden=true;$('hudTop').hidden=true;GUN.sh=W.shots.map(x=>Math.round(x*1000));GUN.mv=W.mv.slice(0,Math.ceil((Math.max(...W.shots,0)+.05)/.1)+1);GUN.log=W.log.slice();GUN.testShots=W.shots.slice();
+function testEnd(){const k=W.over;mode='testEnd';bgmStop();$('tUI').hidden=true;$('quit').hidden=true;$('hudTop').hidden=true;GUN.sh=W.shots.map(x=>Math.round(x*1000));GUN.mv=W.mv.slice(0,Math.ceil((Math.max(...W.shots,0)+.05)/.1)+1);GUN.log=W.log.slice();GUN.testShots=W.shots.slice();
  setTimeout(()=>{if(mode!=='testEnd')return;big('');showReg(k);},k==='self'||k==='jam'?1600:700);
  if(k==='self'){big(t('self'),'red');SND.lose();}else if(k==='jam'){big(t('jam'),'red');SND.lose();}}
 function showReg(k){show('regPanel');const H=$('gHead');H.className='big2 '+(k==='ok'?'ok':'red');H.textContent=t({ok:'okHead',self:'self',jam:'jam',noreach:'noReach',none:'none'}[k]);
@@ -751,19 +847,20 @@ $('gXf').onclick=()=>openX(resKind==='jam'?t('postJam'):t('postSelf'),GAME_URL);
 function startDodge(gun){GUN=gun;mode='dodge';mT=0;hideHud();show(null);clearFX();resetStage();buildGun(gun);
  W=newWorld('dodge',gun,gun.sh.map(x=>x/1000),3.0);acc=0;ptrs.clear();jumpPulse=0;lastCount=99;
  $('hudTop').hidden=false;$('hudA').textContent=t('gunBy',{n:gun.n||t('defName')});$('hudB').textContent=nick(gun.f);$('hudC').textContent=gun.code?t('resNote',{c:gun.code}):'';
- $('ctl').hidden=false;$('ctl').textContent=t('ctl');$('quit').hidden=false;camFor('dodge',0);}
-let resKind='';
-function dodgeEnd(){const k=W.over;mode='dodgeEnd';$('ctl').hidden=true;$('quit').hidden=true;GUN.log=W.log.slice();
+ $('ctl').hidden=false;$('ctl').textContent=t(FINE?'ctlK':'ctl');$('quit').hidden=false;$('dBtns').hidden=FINE;btnJump=btnCrouch=0;lastHud='';camFor('dodge',0);bgmStart('dodge');}
+let resKind='',lastHud='';
+const dodgedN=Wd=>{let n=0;for(const sh of Wd.fired)for(const b of sh.bullets)if(b.out&&b.done&&!b.hitPaper)n++;return n;};
+function dodgeEnd(){const k=W.over;mode='dodgeEnd';bgmStop();$('ctl').hidden=true;$('quit').hidden=true;$('dBtns').hidden=true;$('warn').style.opacity=0;GUN.log=W.log.slice();
  if(k==='hit'){big(t('hit'),'red');SND.lose();}else{big(t('dodged'));SND.win();}
  setTimeout(()=>{if(mode!=='dodgeEnd')return;big('');showRes(k);},1300);}
 function showRes(k){resKind=k;show('resPanel');$('hudTop').hidden=true;const H=$('rHead');H.className='big2 '+(k==='hit'?'red':'ok');H.textContent=t(k==='hit'?'hit':'dodged');
  $('rGun').textContent=t('gunBy',{n:GUN.n||t('defName')});$('rNick').textContent=nick(GUN.f);$('rCode').textContent=GUN.code?t('resNote',{c:GUN.code}):'';$('rStat').textContent='';$('rStat').className='note';
- $('rNext').hidden=!!GUN.own;$('rX').hidden=!GUN.code;if(W&&W.self)$('rStat').textContent=t('shooterSelf');
+ $('rNext').hidden=!!GUN.own;$('rX').hidden=!GUN.code;GUN.lastD=W?dodgedN(W):0;GUN.lastG=W?(W.grazes||0):0;$('rCode').textContent=t('resLine',{d:GUN.lastD,g:GUN.lastG})+(GUN.code?'　'+t('resNote',{c:GUN.code}):'');if(W&&W.self)$('rStat').textContent=t('shooterSelf');
  if(GUN.code&&!GUN.mine)submitRes(GUN,k==='hit'?1:0);else if(GUN.mine)$('rStat').textContent=t('ownGun');}
 $('rAgain').onclick=()=>{ac();startDodge(GUN);};
 $('rNext').onclick=async()=>{ac();await playRandom($('rStat'));};
 $('rTop').onclick=()=>showTitle();
-$('rX').onclick=()=>openX(t(resKind==='hit'?'postHit':'postDodge',{n:GUN.n,f:nick(GUN.f),c:GUN.code}),GAME_URL+'?c='+GUN.code);
+$('rX').onclick=()=>openX(t(resKind==='hit'?'postHit':'postDodge',{n:GUN.n,f:nick(GUN.f),c:GUN.code,d:GUN.lastD||0,g:GUN.lastG||0}),GAME_URL+'?c='+GUN.code);
 
 // ===== 説明書 =====
 const MAN={
@@ -796,7 +893,7 @@ ja:[
 <li><b>下向き</b>：床ではねる。はねるたびに遅くなり、3回まで</li>
 <li><b>重さ</b>：弾は少しずつ落ちる。遅い弾ほど大きく落ちる</li>
 <li><b>自分に向ける</b>：撃った人の体や頭に当たるか、撃った人の後ろを通りぬけると、<b>自分を撃った</b>ことになる</li>
-<li><b>自動のねらい</b>：引き金を引いた瞬間の紙のまん中を通るように、銃が上下左右に約29度まで向きを直す（いちばん長く本体を通る弾で合わせる）。撃った人のほうへ出る銃身は直さない</li></ul>`],
+<li><b>自動のねらい</b>：引き金を引いた瞬間に、紙が動いている向きの先（そのまま動き続けたら弾が届くころにいる所の85%ぶん）を通るように、銃が上下左右に約29度まで向きを直す（いちばん長く本体を通る弾で合わせる）。撃った人のほうへ出る銃身は直さない</li></ul>`],
 ['太さ',`<ul><li>描く前に選ぶ。描いたあとの線の太さは変わらない。続きを別の太さで描くと、そこから太さが変わる</li>
 <li><b>細い</b>：弾が小さい（0.55倍）。1mごとに時速32km速くなる。インク0.6倍</li>
 <li><b>ふつう</b>：弾の大きさ1倍。1mごとに時速18km速くなる。インク1倍</li>
@@ -816,17 +913,21 @@ ja:[
 <li>🦵<b>股の下</b>：ひざの高さ（0.5m）で前に向ける。低い弾になる</li>
 <li>🔙<b>背中ごし</b>：肩ごしに<b>後ろ向き</b>に持つ。まっすぐ描くと後ろへ飛ぶので、U字に描いて前に戻さないと的に届かない</li>
 <li>🔫<b>右手／左手</b>：押すと描く銃が切りかわる。左手の銃を描くと<b>2丁拳銃</b>になり、引き金1回で2丁同時に撃つ。それぞれ自動でねらう。描いていない手の銃身は薄く見える（押すとその手に切りかわる）</li></ul>`],
-['試し撃ち',`<ul><li>「よーい」のあと8秒のあいだに、引き金を3回まで押せる。押したタイミングがそのまま記録され、撃たれる側でもその通りに撃つ</li>
-<li>画面の左右を押す（パソコンは ← →）と、撃つ人が左右に歩く（時速8km、左右2.6mまで）。歩き方も記録され、撃たれる側ではその通りに歩きながら撃ってくる</li>
+['試し撃ち',`<ul><li>「よーい」のあと12秒のあいだに、引き金を10回まで押せる。押したタイミングがそのまま記録され、撃たれる側でもその通りに撃つ</li>
+<li>画面の左右を押す（パソコンは ← →）と、撃つ人が左右に歩く（時速8km、左右1.6mまで）。歩き方も記録され、撃たれる側ではその通りに歩きながら撃ってくる</li>
 <li>1発以上撃ったら「これで決定」で早めに終われる</li>
-<li>試し撃ちでは紙の的はまん中に立ったまま</li>
-<li><b>登録できる条件</b>：自分に当たらない／暴発しない／1発以上が紙の的のいる所（左右3.3m・高さ3mの中）まで届く</li>
+<li>試し撃ちでは、紙の的が左右に0.8mずつゆっくりゆれる（4.5秒で1往復）。動く的にどう当たるかを見て決められる</li>
+<li><b>登録できる条件</b>：自分に当たらない／暴発しない／1発以上が紙の的のいる所（左右2.1m・高さ3mの中）まで届く</li>
 <li>銃の名前は自分でつけられる。形から<b>二つ名</b>も自動でつく（枝の数・輪・波・渦巻き・パーツ・持ち方・2丁など）</li></ul>`],
-['よける',`<ul><li>画面の左半分を押している間は左へ、右半分なら右へ動く（時速12km、左右2.8mまで）。上にはらうとジャンプ（約1m）、下にはらうとしゃがむ（背が55%に縮む）。パソコンは矢印キー</li>
+['よける',`<ul><li><b>動く</b>：画面のどこかに指を置いて左右になぞると、紙が指についてくる（指を動かした幅の約1.35倍、いちばん速くて時速32km、左右1.6mまで）。パソコンは ← →（時速18km）</li>
+<li><b>ジャンプ・しゃがむ</b>：右下の「ジャンプ」でジャンプ（約1m）。左下の「しゃがむ」を押している間しゃがむ（背が55%に縮む）。指を上にはらってもジャンプ、下にはらうと指を離すまでしゃがむ。パソコンは ↑かスペースでジャンプ、↓でしゃがむ</li>
+<li>始まる前の「3・2・1」のあいだから動ける。射撃場の幅はせまく、まん中から左右に1.6mまで</li>
 <li>動いている間は、紙が進む向きへ45度まで回って細くなる（当たりにくくなる）</li>
-<li><b>予測線</b>：弾が出口を出る0.2秒前に、赤い線で通り道が一瞬だけ出る。枝分かれの弾は、それぞれの弾が出る0.2秒前に出る</li>
-<li>銃は、引き金を引いた瞬間の紙のまん中をねらう。引き金から弾が出るまでに動けば、よけやすい</li>
-<li>紙の形（頭・首・体）と、足もとの台に当たったら終わり。近くをかすった弾は、紙に焦げあとを残す</li></ul>`],
+<li><b>銃口</b>：撃つ前から、銃口がこっちを追ってくる。銃口の向きを見ると、どこへ撃ってくるかが分かる</li>
+<li><b>先読み</b>：銃は、引き金を引いた瞬間の紙の動きを見て、そのまま動き続けたら弾が届くころにいる所（の85%ぶん先）をねらう。同じ向きに動き続けると当たる。引き金のあとで止まる・向きを変える・ジャンプ・しゃがむでよける</li>
+<li><b>予測線</b>：弾が出口を出る0.2秒前に、赤い線で通り道が一瞬だけ出る（画面のふちも赤く光る）。枝分かれの弾は、それぞれの弾が出る0.2秒前に出る</li>
+<li><b>ギリギリ</b>：弾が紙のすぐそばを通ると「ギリギリ！」が出て、一瞬スローになる。よけた弾の数とギリギリの回数は、結果と投稿に出る</li>
+<li>紙の形（頭・首・体）と、足もとの台に当たったら終わり。近くをかすった弾は、紙に焦げあとを残す。アンドロイドのスマホは、当たると震える</li></ul>`],
 ['ランキング',`<ul><li>銃のK/Dで並ぶ。K/D＝当てた回数÷よけられた回数（よけられた回数が0のときは1として計算）</li>
 <li>10回以上遊ばれた銃だけが載る。100位まで</li>
 <li>記録に入るのは、その銃で1人1回目だけ。自分で作った銃は入らない</li>
@@ -859,7 +960,7 @@ en:[
 <li><b>Downward</b>: bounces on the floor up to 3 times, slowing each time</li>
 <li><b>Gravity</b>: bullets drop slowly; slower ones drop more</li>
 <li><b>Self</b>: touching the shooter's body/head, or passing behind the shooter, means you <b>shot yourself</b></li>
-<li><b>Auto-aim</b>: at the trigger pull, the gun turns up to ~29° so the main bullet passes the paper's center. Barrels pointing back at the shooter are not corrected</li></ul>`],
+<li><b>Auto-aim</b>: at the trigger pull, the gun turns up to ~29° so the main bullet passes ahead of the moving paper (85% of where it would be if it kept moving). Barrels pointing back at the shooter are not corrected</li></ul>`],
 ['Thickness',`<ul><li>Choose before drawing. Drawing a continuation with another thickness changes it from there</li>
 <li><b>Thin</b>: small bullets (0.55×), +32 km/h per m, ink 0.6×</li>
 <li><b>Normal</b>: bullets 1×, +18 km/h per m, ink 1×</li>
@@ -877,16 +978,20 @@ en:[
 <li>🦵<b>Crotch</b>: knee height (0.5 m), low bullets</li>
 <li>🔙<b>Backward</b>: held over the shoulder facing <b>backward</b>. A straight barrel shoots behind you; draw a U-turn to reach the target</li>
 <li>🔫<b>Right/Left</b>: switches which gun you draw. Drawing a left gun makes <b>dual guns</b>: one trigger fires both, each aims on its own</li></ul>`],
-['Test fire',`<ul><li>After "Ready" you have 8 s to press the trigger up to 3 times. Your timing is recorded and replayed against targets</li>
-<li>Hold the left/right side (PC: ← →) to walk (8 km/h, up to 2.6 m). Your walk is recorded too</li>
-<li>After one shot, "Done" ends early. The paper stays centered in the test</li>
-<li><b>To register</b>: no self-hit, no misfire, at least one bullet reaching the target area (3.3 m each side, 3 m high)</li>
+['Test fire',`<ul><li>After "Ready" you have 12 s to press the trigger up to 10 times. Your timing is recorded and replayed against targets</li>
+<li>Hold the left/right side (PC: ← →) to walk (8 km/h, up to 1.6 m). Your walk is recorded too</li>
+<li>After one shot, "Done" ends early. In the test, the paper sways 0.8 m left and right (one round trip every 4.5 s)</li>
+<li><b>To register</b>: no self-hit, no misfire, at least one bullet reaching the target area (2.1 m each side, 3 m high)</li>
 <li>Name your gun. A <b>nickname</b> is added from its shape (branches, loops, waves, spirals, parts, grip, dual…)</li></ul>`],
-['Dodging',`<ul><li>Hold the left/right half to move (12 km/h, up to 2.8 m). Swipe up to jump (~1 m), down to crouch (height 55%). PC: arrow keys</li>
+['Dodging',`<ul><li><b>Move</b>: put a finger anywhere and slide left/right; the paper follows (about 1.35× your finger, up to 32 km/h, 1.6 m each side). PC: ← → (18 km/h)</li>
+<li><b>Jump / crouch</b>: JUMP (bottom right) jumps about 1 m. Hold CROUCH (bottom left) to crouch (height 55%). Swiping up also jumps; swiping down crouches until you lift your finger. PC: ↑ or Space to jump, ↓ to crouch</li>
+<li>You can move during the 3-2-1 countdown. The lane is narrow: 1.6 m to each side of the center</li>
 <li>While moving, the paper turns up to 45° and gets thinner</li>
-<li><b>Prediction line</b>: a red line flashes 0.2 s before each bullet leaves the barrel</li>
-<li>The gun aims at the paper's center at the trigger pull. Move between the trigger and the shot</li>
-<li>Getting hit on the paper (head, neck, body) or its stand ends it. Near misses leave scorch marks</li></ul>`],
+<li><b>Muzzle</b>: the gun follows you before it fires. Watch where it points</li>
+<li><b>Leading</b>: at the trigger pull the gun reads your movement and aims where you would be when the bullet arrives if you kept going (85% of the way). Keep running the same way and you get hit. Stop, turn back, jump or crouch after the trigger</li>
+<li><b>Prediction line</b>: a red line flashes 0.2 s before each bullet leaves the barrel (the screen edge glows red too)</li>
+<li><b>Close calls</b>: a bullet passing right by you shows "CLOSE CALL!" with a short slow-motion. Your dodges and close calls appear in the result and the post</li>
+<li>Getting hit on the paper (head, neck, body) or its stand ends it. Near misses leave scorch marks. Android phones vibrate on a hit</li></ul>`],
 ['Ranking',`<ul><li>Guns ranked by K/D = hits ÷ dodges (0 dodges counts as 1)</li><li>Only guns played 10+ times, top 100</li>
 <li>Only each person's first try per gun counts. Your own guns don't count</li><li>Tap a gun in the ranking to dodge it</li></ul>`]],
 zh:[
@@ -911,7 +1016,7 @@ zh:[
 <li><b>朝上</b>：超過55度往上的子彈消失在空中，約1.8秒後從上面掉下。正上方會掉在射擊者頭上，55度掉在靶附近</li>
 <li><b>朝下</b>：在地板反彈，每次變慢，最多3次</li><li><b>重量</b>：子彈會慢慢下墜，越慢掉越多</li>
 <li><b>對著自己</b>：碰到射擊者的身體或頭、或穿過射擊者後方，就是<b>打到自己</b></li>
-<li><b>自動瞄準</b>：扣扳機瞬間，槍會上下左右最多轉約29度，讓主子彈通過紙靶中心。朝射擊者方向的槍管不修正</li></ul>`],
+<li><b>自動瞄準</b>：扣扳機瞬間，槍會上下左右最多轉約29度，讓主子彈通過紙靶移動方向的前方（繼續移動時位置的85%）。朝射擊者方向的槍管不修正</li></ul>`],
 ['粗細',`<ul><li>畫之前選。延長時換粗細，從那裡開始改變</li><li><b>細</b>：子彈小（0.55倍），每公尺加快時速32km，墨水0.6倍</li>
 <li><b>普通</b>：1倍，每公尺加快時速18km，墨水1倍</li><li><b>粗</b>：子彈大（1.6倍），每公尺只加快時速4km，墨水1.6倍</li>
 <li><b>超粗</b>：大球（2.4倍），每公尺變慢時速7km，墨水2.4倍，畫太長會卡住</li><li>子彈大小由射出的槍管粗細決定，越大越容易打中</li></ul>`],
@@ -921,12 +1026,17 @@ zh:[
 ['拿法・雙槍',`<ul><li>按拿法按鈕切換，雙槍時兩把相同</li><li>🤚<b>單手</b>：胸口高度（1.35公尺）朝前</li><li>🙌<b>頭上</b>：頭上（2.05公尺）朝前，往下射</li>
 <li>🦵<b>胯下</b>：膝蓋高度（0.5公尺），低彈道</li><li>🔙<b>背後</b>：從肩膀<b>朝後</b>拿。直直畫會往後飛，要畫U字才打得到靶</li>
 <li>🔫<b>右手／左手</b>：切換要畫的槍。畫了左手就是<b>雙槍</b>，扣一次扳機兩把同時射，各自瞄準</li></ul>`],
-['試射',`<ul><li>「預備」後8秒內最多按3次扳機。按下的時機會直接記錄，被射方也照這個時機</li>
-<li>按住畫面左右（電腦用←→）可以走動（時速8km，左右2.6公尺內），走法也會記錄</li><li>打過1發後可以按「就這樣」提早結束。試射時紙靶站在中間不動</li>
-<li><b>登錄條件</b>：沒打到自己、沒走火、至少1發到達紙靶範圍（左右3.3公尺・高3公尺）</li><li>可以自己取槍名，也會依形狀自動加上<b>稱號</b></li></ul>`],
-['閃躲',`<ul><li>按住畫面左半往左、右半往右（時速12km，左右2.8公尺內）。往上滑跳（約1公尺），往下滑蹲（身高55%）。電腦用方向鍵</li>
-<li>移動時紙靶最多轉45度變薄</li><li><b>預測線</b>：子彈離開槍口前0.2秒，紅線閃一下</li>
-<li>槍瞄準扣扳機瞬間的紙靶中心，在扣扳機到射出之間移動就容易躲</li><li>打中紙靶（頭・脖子・身體）或腳下台座就結束。擦過會留下焦痕</li></ul>`],
+['試射',`<ul><li>「預備」後12秒內最多按10次扳機。按下的時機會直接記錄，被射方也照這個時機</li>
+<li>按住畫面左右（電腦用←→）可以走動（時速8km，左右1.6公尺內），走法也會記錄</li><li>打過1發後可以按「就這樣」提早結束。試射時紙靶會左右各晃0.8公尺（4.5秒來回一次）</li>
+<li><b>登錄條件</b>：沒打到自己、沒走火、至少1發到達紙靶範圍（左右2.1公尺・高3公尺）</li><li>可以自己取槍名，也會依形狀自動加上<b>稱號</b></li></ul>`],
+['閃躲',`<ul><li><b>移動</b>：手指放在畫面上左右滑，紙靶會跟著手指（約手指移動的1.35倍，最快時速32km，左右1.6公尺內）。電腦用←→（時速18km）</li>
+<li><b>跳・蹲</b>：按右下「跳」跳起（約1公尺），按住左下「蹲」就蹲下（身高55%）。往上滑也能跳，往下滑會蹲到手指離開。電腦用↑或空白鍵跳、↓蹲</li>
+<li>開始前的「3・2・1」就能移動。靶道很窄，從中間左右各1.6公尺</li>
+<li>移動時紙靶最多轉45度變薄</li><li><b>槍口</b>：開槍前槍口就會追著你。看槍口方向就知道會往哪打</li>
+<li><b>預判</b>：扣扳機瞬間，槍會看你的移動，瞄準你繼續移動時子彈到達那刻的位置（85%的距離）。一直往同方向跑就會中。扣扳機後停下、轉向、跳或蹲來躲</li>
+<li><b>預測線</b>：子彈離開槍口前0.2秒，紅線閃一下（畫面邊緣也會發紅）</li>
+<li><b>好險</b>：子彈從身邊擦過會出現「好險！」並短暫慢動作。躲過的數量和好險次數會顯示在結果和貼文</li>
+<li>打中紙靶（頭・脖子・身體）或腳下台座就結束。擦過會留下焦痕。Android 手機被打中會震動</li></ul>`],
 ['排行榜',`<ul><li>依槍的K/D排名。K/D＝命中次數÷被躲次數（0次算1）</li><li>只列被玩過10次以上的槍，前100名</li><li>每人每把槍只計第一次，自己的槍不計</li><li>點排行榜上的槍就能躲那把槍</li></ul>`]],
 ko:[
 ['놀이 방법',`<ul><li><b>쏘는 쪽</b>: 총구에서부터 총신을 자유롭게 그리고 시험 사격. 자기가 맞지 않고, 폭발하지 않고, 1발 이상 과녁 범위까지 닿으면 등록하고 8글자 암호를 받는다</li>
@@ -950,7 +1060,7 @@ ko:[
 <li><b>위쪽</b>: 55도보다 위로 나간 총알은 하늘로 사라졌다가 약 1.8초 뒤 위에서 떨어진다. 바로 위면 쏜 사람 위, 55도면 과녁 근처</li>
 <li><b>아래쪽</b>: 바닥에서 튕긴다. 튕길 때마다 느려지고 3번까지</li><li><b>무게</b>: 총알은 조금씩 떨어진다. 느릴수록 많이 떨어진다</li>
 <li><b>자기를 향하면</b>: 쏜 사람의 몸이나 머리에 닿거나 뒤를 지나가면 <b>자기를 쏜</b> 것</li>
-<li><b>자동 조준</b>: 방아쇠를 당긴 순간 종이 가운데를 지나도록 총이 상하좌우 약 29도까지 방향을 고친다. 쏜 사람 쪽으로 나가는 총신은 고치지 않는다</li></ul>`],
+<li><b>자동 조준</b>: 방아쇠를 당긴 순간 종이가 움직이는 방향의 앞(그대로 움직였을 때 위치의 85%)을 지나도록 총이 상하좌우 약 29도까지 방향을 고친다. 쏜 사람 쪽으로 나가는 총신은 고치지 않는다</li></ul>`],
 ['굵기',`<ul><li>그리기 전에 고른다. 이어 그릴 때 다른 굵기로 하면 거기서부터 바뀐다</li><li><b>가늘게</b>: 총알 작음(0.55배), 1m마다 시속 32km 빨라짐, 잉크 0.6배</li>
 <li><b>보통</b>: 1배, 1m마다 시속 18km, 잉크 1배</li><li><b>굵게</b>: 총알 큼(1.6배), 1m마다 시속 4km만, 잉크 1.6배</li>
 <li><b>초굵게</b>: 큰 공(2.4배), 1m마다 시속 7km 느려짐, 잉크 2.4배. 너무 길면 막힌다</li><li>총알 크기는 나간 총신의 굵기로 정해진다. 클수록 잘 맞는다</li></ul>`],
@@ -960,12 +1070,17 @@ ko:[
 ['잡는 법·쌍권총',`<ul><li>잡는 법 버튼을 누를 때마다 바뀐다. 쌍권총이면 두 자루 같다</li><li>🤚<b>한 손</b>: 가슴 높이(1.35m)에서 앞으로</li><li>🙌<b>머리 위</b>: 머리 위(2.05m)에서 앞으로, 내려 쏘는 모양</li>
 <li>🦵<b>가랑이</b>: 무릎 높이(0.5m), 낮은 총알</li><li>🔙<b>등 뒤로</b>: 어깨 너머 <b>뒤를 향해</b> 잡는다. 곧게 그리면 뒤로 날아가니 U자로 그려야 과녁에 닿는다</li>
 <li>🔫<b>오른손／왼손</b>: 그릴 총을 바꾼다. 왼손 총을 그리면 <b>쌍권총</b>, 방아쇠 1번에 두 자루가 동시에, 각자 조준</li></ul>`],
-['시험 사격',`<ul><li>「준비」 후 8초 동안 방아쇠를 3번까지. 누른 타이밍이 그대로 기록되고 맞는 쪽에서도 그대로 쏜다</li>
-<li>화면 좌우를 누르면(PC는 ← →) 걸을 수 있다(시속 8km, 좌우 2.6m까지). 걷는 것도 기록된다</li><li>1발 이상 쏘면 「이걸로 결정」으로 일찍 끝낼 수 있다. 시험 사격에서 종이는 가운데에 서 있다</li>
-<li><b>등록 조건</b>: 자기가 맞지 않음, 폭발하지 않음, 1발 이상 과녁 범위(좌우 3.3m·높이 3m)까지 닿음</li><li>총 이름은 직접 짓고, 모양으로 <b>별명</b>도 자동으로 붙는다</li></ul>`],
-['피하기',`<ul><li>화면 왼쪽 절반을 누르면 왼쪽, 오른쪽이면 오른쪽(시속 12km, 좌우 2.8m까지). 위로 쓸면 점프(약 1m), 아래로 쓸면 앉기(키 55%). PC는 방향키</li>
-<li>움직이는 동안 종이가 45도까지 돌아 얇아진다</li><li><b>예측선</b>: 총알이 총구를 나가기 0.2초 전에 빨간 선이 한순간 보인다</li>
-<li>총은 방아쇠를 당긴 순간의 종이 가운데를 노린다. 방아쇠와 발사 사이에 움직이면 피하기 쉽다</li><li>종이(머리·목·몸)나 받침대에 맞으면 끝. 스친 총알은 그을린 자국을 남긴다</li></ul>`],
+['시험 사격',`<ul><li>「준비」 후 12초 동안 방아쇠를 10번까지. 누른 타이밍이 그대로 기록되고 맞는 쪽에서도 그대로 쏜다</li>
+<li>화면 좌우를 누르면(PC는 ← →) 걸을 수 있다(시속 8km, 좌우 1.6m까지). 걷는 것도 기록된다</li><li>1발 이상 쏘면 「이걸로 결정」으로 일찍 끝낼 수 있다. 시험 사격에서 종이는 좌우로 0.8m씩 흔들린다(4.5초에 한 번 왕복)</li>
+<li><b>등록 조건</b>: 자기가 맞지 않음, 폭발하지 않음, 1발 이상 과녁 범위(좌우 2.1m·높이 3m)까지 닿음</li><li>총 이름은 직접 짓고, 모양으로 <b>별명</b>도 자동으로 붙는다</li></ul>`],
+['피하기',`<ul><li><b>이동</b>: 화면에 손가락을 대고 좌우로 밀면 종이가 손가락을 따라온다(손가락 움직임의 약 1.35배, 최고 시속 32km, 좌우 1.6m까지). PC는 ← →(시속 18km)</li>
+<li><b>점프·앉기</b>: 오른쪽 아래 「점프」로 점프(약 1m), 왼쪽 아래 「앉기」를 누르는 동안 앉는다(키 55%). 위로 쓸어도 점프, 아래로 쓸면 손가락을 뗄 때까지 앉는다. PC는 ↑나 스페이스로 점프, ↓로 앉기</li>
+<li>시작 전 「3·2·1」부터 움직일 수 있다. 사격장은 좁아서 가운데에서 좌우 1.6m씩</li>
+<li>움직이는 동안 종이가 45도까지 돌아 얇아진다</li><li><b>총구</b>: 쏘기 전부터 총구가 나를 따라온다. 총구 방향을 보면 어디로 쏠지 알 수 있다</li>
+<li><b>예측 사격</b>: 방아쇠를 당긴 순간 총이 내 움직임을 보고, 그대로 움직였을 때 총알이 닿을 무렵 있을 곳(의 85%)을 노린다. 같은 방향으로 계속 움직이면 맞는다. 방아쇠 뒤에 멈추기·방향 바꾸기·점프·앉기로 피한다</li>
+<li><b>예측선</b>: 총알이 총구를 나가기 0.2초 전에 빨간 선이 한순간 보인다(화면 가장자리도 빨갛게 빛난다)</li>
+<li><b>아슬아슬</b>: 총알이 바로 옆을 지나가면 「아슬아슬!」과 함께 잠깐 슬로모션. 피한 총알 수와 아슬아슬 횟수는 결과와 게시글에 나온다</li>
+<li>종이(머리·목·몸)나 받침대에 맞으면 끝. 스친 총알은 그을린 자국을 남긴다. 안드로이드 폰은 맞으면 진동한다</li></ul>`],
 ['랭킹',`<ul><li>총의 K/D로 줄 선다. K/D＝맞힌 횟수÷피한 횟수(0회는 1로 계산)</li><li>10번 이상 플레이된 총만, 100위까지</li><li>한 사람당 그 총의 첫 번째만 기록, 자기 총은 안 들어간다</li><li>랭킹의 총을 누르면 그 총으로 피할 수 있다</li></ul>`]]};
 let manI=0;
 function openMan(i){if(i!=null)manI=i;const L=MAN[lang]||MAN.ja;manI=clamp(manI,0,L.length-1);$('manPanel').hidden=false;$('manTitle').textContent=t('man');$('manClose').textContent=t('close');
@@ -1076,7 +1191,7 @@ function vidDone(blob){vidBusy=false;show('vidPanel');
  $('vidPrev').hidden=false;const url=URL.createObjectURL(blob);$('vidPrev').src=url;$('vidPrev').play().catch(()=>{});
  const nm='gojuuni_'+(GUN.code||resKind)+'.'+vidExt;const file=new File([blob],nm,{type:blob.type});const canShare=!!(navigator.canShare&&navigator.canShare({files:[file]}));
  $('vShare').hidden=!canShare;$('vSave').hidden=false;$('vMsg').textContent=canShare?t('vmade'):t('shareHint');
- const post=()=>vidFrom==='regPanel'?(resKind==='jam'?t('postJam'):t('postSelf')):t(resKind==='hit'?'postHit':'postDodge',{n:GUN.n,f:nick(GUN.f),c:GUN.code});const purl=()=>GUN.code&&vidFrom!=='regPanel'?GAME_URL+'?c='+GUN.code:GAME_URL;
+ const post=()=>vidFrom==='regPanel'?(resKind==='jam'?t('postJam'):t('postSelf')):t(resKind==='hit'?'postHit':'postDodge',{n:GUN.n,f:nick(GUN.f),c:GUN.code,d:GUN.lastD||0,g:GUN.lastG||0});const purl=()=>GUN.code&&vidFrom!=='regPanel'?GAME_URL+'?c='+GUN.code:GAME_URL;
  $('vShare').onclick=async()=>{try{await navigator.share({files:[file],text:post()+'\n'+purl()});}catch(e){}};
  $('vSave').onclick=()=>{const a=document.createElement('a');a.href=url;a.download=nm;document.body.appendChild(a);a.click();a.remove();};
  $('vX').onclick=()=>openX(post(),purl());}
@@ -1089,13 +1204,14 @@ function loop(now){requestAnimationFrame(loop);const raw=Math.min(.25,Math.max(0
  if(mode==='draw'){renderDraw();return;}
  if(jumpPulse>0)jumpPulse-=raw;
  if((mode==='test'||mode==='dodge'||mode==='testEnd'||mode==='dodgeEnd')&&W){acc+=raw;let n=0;const slow=W.over==='hit'&&W.t-W.overT<.6?.3:1;
-  while(acc>=DT/slow&&n<40){acc-=DT/slow;n++;wTick(W,mode==='dodge'||mode==='test'?inputBits():0);}
+  const slow2=slow*(slowT>0?.35:1);
+  while(acc>=DT/slow2&&n<40){acc-=DT/slow2;n++;wTick(W,mode==='dodge'||mode==='test'?inputBits():0);}
   if(mode==='test'||mode==='dodge')countUi(W);handleEvents(W,true);updTrig&&mode==='test'&&updTrig();
   if(W.over&&mode==='test')testEnd();if(W.over&&mode==='dodge')dodgeEnd();
   if(W.over==='self'&&W.kind==='test')SHOOT.rotation.x=Math.min(1.3,(W.t-W.overT)*3);
-  renderWorld(W);camFor(W.kind,mT,W.kind==='test'?W.sx:W.P.x);}
+  renderWorld(W);camFor(W.kind,mT,W.kind==='test'?W.sx:W.P.x);$('warn').style.opacity=lineOn&&W.kind==='dodge'&&!W.over?1:0;if(mode==='dodge'){const hc=t('hudCnt',{n:Math.max(0,W.shots.length-W.si),d:dodgedN(W)});if(hc!==lastHud){lastHud=hc;$('hudC').textContent=hc;}}}
  else camFor('title',mT);
- stepSparks(raw);if(!window.__NR)R.render(SC,CAM);}
+ stepSparks(raw);stepFlash(raw);if(!window.__NR)R.render(SC,CAM);}
 
 // ===== はじめ =====
 resize();applyLang();

@@ -6,16 +6,16 @@ export const MUZ = [0, 1.35, -0.45]; // 銃の口（銃身はここから描く�
 export const INK = 5.5;              // 描けるインクの長さ
 export const STEP = 0.04;            // 線の点の間隔
 export const MAXB = 32;              // 1発あたりの弾の数の上限
-export const MAXSHOT = 3;            // 撃てる数
-export const TESTWIN = 8;            // 試し撃ちで引き金を押せる時間（秒）
+export const MAXSHOT = 10;           // 撃てる数
+export const TESTWIN = 12;           // 試し撃ちで引き金を押せる時間（秒）
 export const AIMMAX = 0.5;           // 自動でねらいを直せる角度（ラジアン、約29度）
 export const V0 = 16, VMAX = 48, VIS = 0.16, G = 5;
-export const XMAX = 2.8;             // 紙の的が動ける幅
+export const XMAX = 1.6;             // 紙の的が動ける幅（室内のせまいレーン）
 // 持ち方：銃の口の位置と、銃の向き（y0=π は後ろ向き）
 export const GRIPS = [{ o: [0, 1.35, -0.45], y0: 0 }, { o: [0, 2.05, -0.3], y0: 0 }, { o: [0, 0.5, -0.32], y0: 0 }, { o: [0, 1.45, 0.38], y0: Math.PI }];
 export const HANDX = 0.2;            // 2丁のとき、右手は +0.2、左手は -0.2
 export const WF = [0.55, 1, 1.6, 2.4], WINK = [0.6, 1, 1.6, 2.4], WACC = [9, 5, 1, -2]; // 太さ：弾の大きさ・インク・加速
-export const PARTS = ['sp', 'ic', 'pw', 'cl', 'ho'], MAXPART = 8, WALK = 2.2, SXMAX = 2.6;
+export const PARTS = ['sp', 'ic', 'pw', 'cl', 'ho'], MAXPART = 8, WALK = 2.2, SXMAX = 1.6;
 export function originOf(grip, hand, two, sx) { const g = GRIPS[grip || 0]; return [(sx || 0) + (two ? (hand ? -HANDX : HANDX) : 0), g.o[1], g.o[2]]; }
 const TAU = Math.PI * 2;
 const clamp = (x, a, b) => x < a ? a : x > b ? b : x;
@@ -310,11 +310,14 @@ export function inPaper(u, w, hs, m) {
   if (w >= P.H && w <= P.H + 0.12 && Math.abs(u) <= P.NECK + m) return true;
   return Math.hypot(u, w - P.HEADY) <= P.HEADR + m;
 }
-export function newPaper() { return { x: 0, vx: 0, yaw: 0, y: 0, vy: 0, hs: 1, crouch: false, ground: true }; }
-// in：1=左 2=右 4=ジャンプ 8=しゃがむ（世界の左右。-X が「左」）
+export function newPaper() { return { x: 0, vx: 0, vs: 0, yaw: 0, y: 0, vy: 0, hs: 1, crouch: false, ground: true }; }
+// 入力：1=画面の右 2=画面の左 4=ジャンプ 8=しゃがむ 16=指で動かしている（そのとき 32 から上に、行きたい位置 cm+1000 が入る）
+export const KEYSPD = 5, DRAGSPD = 9;
+export const dragInput = x => 16 + ((Math.round(clamp(x, -XMAX, XMAX) * 100) + 1000) << 5);
 export function stepPaper(P, bits, dt) {
-  const mv = ((bits & 2) ? 1 : 0) - ((bits & 1) ? 1 : 0);
-  P.vx = mv * 3.4; P.x = clamp(P.x + P.vx * dt, -XMAX, XMAX);
+  let mv = ((bits & 2) ? 1 : 0) - ((bits & 1) ? 1 : 0), vx = mv * KEYSPD;
+  if (bits & 16) { const tx = ((bits >> 5) - 1000) / 100, d = tx - P.x; vx = clamp(d / dt, -DRAGSPD, DRAGSPD); mv = Math.abs(d) > 0.03 ? Math.sign(d) : 0; }
+  const x0 = P.x; P.x = clamp(P.x + vx * dt, -XMAX, XMAX); P.vx = (P.x - x0) / dt; P.vs = (P.vs || 0) * 0.9 + P.vx * 0.1;
   const ty = mv ? -mv * Math.PI / 4 : 0; const d = ty - P.yaw; P.yaw += clamp(d, -8 * dt, 8 * dt);
   P.crouch = !!(bits & 8) && P.ground;
   if ((bits & 4) && P.ground && !P.crouch) { P.vy = 5.6; P.ground = false; }
@@ -322,6 +325,8 @@ export function stepPaper(P, bits, dt) {
   const th = P.crouch ? 0.55 : 1; P.hs += clamp(th - P.hs, -6 * dt, 6 * dt);
 }
 export function paperCenter(P) { return [P.x, PAPER.BASE + P.y + 0.75 * P.hs]; }
+export const LEAD = 0.85;
+export function leadPoint(P, A) { const ex = A.exits[0]; const c = paperCenter(P); if (!ex) return c; const ta = ex.t + L / Math.max(6, ex.v); return [clamp(P.x + (P.vs || 0) * ta * LEAD, -XMAX, XMAX), c[1]]; }
 // 弾の通り道の1区間が紙をつきぬけたか。返り値：{hit:true,u,w} か {near:true,u,w} か null
 export function crossPaper(P, a, b, r) {
   const nx = Math.sin(P.yaw), nz = Math.cos(P.yaw); // 紙の向き（Y まわりに回る）
