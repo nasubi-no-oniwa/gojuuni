@@ -584,6 +584,8 @@ function nearestPt(v,x,y,maxPx){let best=null,bd=maxPx;strokesOf(hand).forEach((
 const inMini=(x,y)=>MINI&&x>=MINI.x&&x<=MINI.x+MINI.w&&y>=MINI.y&&y<=MINI.y+MINI.h;
 DC.addEventListener('pointerdown',e=>{if(mode!=='draw'||drawing||bend)return;ac();const x=e.clientX,y=e.clientY;
  if(inMini(x,y)){setView(view==='side'?'top':'side');return;}
+ if(dmode!=='draw'){const [ox0,oy0]=originPx(view,AREA,DS);const nearMuzzle=Math.hypot(x-ox0,y-oy0)<DS*.22;
+  if(!strokesOf(hand).length||(nearMuzzle&&!nearestPt(view,x,y,DS*.18))){dmode='draw';toolsUi();}}
  if(dmode==='part'){const pk=nearestPt(view,x,y,DS*.18);if(!pk){toast(t('needBarrel'));return;}const ps=hands[hand].parts;const ex=ps.findIndex(q=>q.k===pk[0]&&Math.abs(q.i-pk[1])<=2);snap();
   if(ex>=0)ps.splice(ex,1);else{if(ps.length>=S.MAXPART){toast(t('partMax'));hist.pop();return;}if(pk[0]===0&&pk[1]===0)pk[1]=1;ps.push({k:pk[0],i:pk[1],t:ptype});SND.tick();}renderDraw();updStats();return;}
  if(dmode==='bend'){const pk=nearestPt(view,x,y,DS*.3);if(!pk){toast(t('needBarrel'));return;}snap();bend={k:pk[0],i:pk[1],x0:x,y0:y,orig:JSON.parse(JSON.stringify(strokesOf(hand))),pid:e.pointerId};DC.setPointerCapture(e.pointerId);return;}
@@ -632,7 +634,7 @@ $('mDraw').onclick=()=>{dmode='draw';toolsUi();};$('mBend').onclick=()=>{dmode='
 $('bHand').onclick=()=>{hand=1-hand;toolsUi();renderDraw();updStats();toast(t(hand?'handLT':'handRT'),2200);};
 $('bGrip').onclick=()=>{snap();grip=(grip+1)%4;toolsUi();renderDraw();updStats();toast(t(GRIP_K[grip])+(grip===3?' — '+t('g3T'):''),2000);};
 $('dUndo').onclick=()=>{if(hist.length){const o=JSON.parse(hist.pop());hands=o.hands;grip=o.grip;toolsUi();renderDraw();updStats();}};
-$('dClear').onclick=()=>{if(strokesOf(hand).length||hands[hand].parts.length){snap();hands[hand]={strokes:[],parts:[]};renderDraw();updStats();}};
+$('dClear').onclick=()=>{if(strokesOf(hand).length||hands[hand].parts.length){snap();hands[hand]={strokes:[],parts:[]};}dmode='draw';toolsUi();renderDraw();updStats();};
 $('dBack').onclick=()=>showTitle();
 function ask(q,sub,a,b,fa,fb){const P=$('askPanel');P.hidden=false;$('askQ').textContent=q;$('askS').textContent=sub||'';$('askA').textContent=a;$('askB').textContent=b;$('askA').onclick=()=>{P.hidden=true;fa();};$('askB').onclick=()=>{P.hidden=true;fb();};}
 $('dNext').onclick=()=>{ac();const other=view==='side'?'top':'side';if(visited[other]){startTest();return;}
@@ -718,7 +720,7 @@ function updTrig(){const n=W?S.MAXSHOT-W.shots.length:0;$('trig').innerHTML=esc(
 $('tDone').onclick=()=>{if(W&&mode==='test'&&W.shots.length){W.closed=true;updTrig();}};
 function pressTrig(){if(mode!=='test'||!W||W.over||W.closed||W.t<0||W.t>=S.TESTWIN||W.shots.length>=S.MAXSHOT)return;ac();W.shots.push(W.t+1e-9);updTrig();}
 $('trig').addEventListener('pointerdown',e=>{e.preventDefault();pressTrig();});
-$('quit').onclick=()=>{if(mode==='test')startDraw(true);else showTitle();};
+$('quit').onclick=()=>{if(mode==='test'){dmode='draw';startDraw(true);}else showTitle();};
 let lastCount=99;
 function countUi(Wd){if(Wd.t<0){const k=Math.ceil(-Wd.t);if(k!==lastCount){lastCount=k;big(k>1?String(k-1):t('ready'));SND.tick();}}else if(lastCount!==0){lastCount=0;big(Wd.kind==='test'?t('go'):t('dodgeGo'));SND.go();setTimeout(()=>{if(W===Wd&&!Wd.over)big('');},650);}}
 function testEnd(){const k=W.over;mode='testEnd';$('tUI').hidden=true;$('quit').hidden=true;$('hudTop').hidden=true;GUN.sh=W.shots.map(x=>Math.round(x*1000));GUN.mv=W.mv.slice(0,Math.ceil((Math.max(...W.shots,0)+.05)/.1)+1);GUN.log=W.log.slice();GUN.testShots=W.shots.slice();
@@ -728,7 +730,7 @@ function showReg(k){show('regPanel');const H=$('gHead');H.className='big2 '+(k==
  $('gSub').textContent=t({ok:'okSub',self:'selfSub',jam:'jamSub',noreach:'noReachSub',none:'noneSub'}[k]);
  $('gOk').hidden=k!=='ok';$('gDone').hidden=true;$('gMsg').textContent='';$('gMsg').className='note';$('gNick').textContent=nick(GUN.f);$('gName').value=ls.get('gj_gname','');$('gReg').disabled=false;
  $('gVid').hidden=!(k==='self'||k==='jam');$('gXf').hidden=!(k==='self'||k==='jam');$('gRetest').hidden=k==='self'||k==='jam'||k==='noreach';$('gRedraw').hidden=false;resKind=k;}
-$('gRetest').onclick=()=>{ac();startTest();};$('gRedraw').onclick=()=>startDraw(true);$('gTop').onclick=()=>showTitle();
+$('gRetest').onclick=()=>{ac();startTest();};$('gRedraw').onclick=()=>{dmode='draw';startDraw(true);};$('gTop').onclick=()=>showTitle();
 $('gXf').onclick=()=>openX(resKind==='jam'?t('postJam'):t('postSelf'),GAME_URL);
 
 // よける
