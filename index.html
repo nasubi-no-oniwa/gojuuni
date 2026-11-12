@@ -1123,7 +1123,11 @@ $('manClose').onclick=()=>{$('manPanel').hidden=true;};
 $('bMan').onclick=()=>openMan();$('dMan').onclick=()=>openMan();
 
 // ===== X =====
-function openX(text,url){const u='https://x.com/intent/post?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(url);const w=window.open(u,'_blank');if(!w)location.href=u;}
+// Xの投稿で引用するツイート（なすびのお庭の管理ページ quote/ で日本語・英語を貼りかえられる）
+let QUOTE={};fetch('https://ft-red-default-rtdb.asia-southeast1.firebasedatabase.app/xquote/g/gojuuni.json').then(r=>r.json()).then(d=>{if(d&&typeof d==='object')QUOTE=d;}).catch(()=>{});
+function quoteURL(){const u=(lang==='ja'?QUOTE.ja:QUOTE.en)||'';return /^https:\/\/x\.com\/[A-Za-z0-9_]{1,15}\/status\/\d{5,25}$/.test(u)?u:'';}
+function xIntent(text,url){const q=quoteURL();return 'https://x.com/intent/post?text='+encodeURIComponent(q?text+'\n'+url:text)+'&url='+encodeURIComponent(q||url);}
+function openX(text,url){const u=xIntent(text,url);const w=window.open(u,'_blank');if(!w)location.href=u;}
 
 // ===== Firebase（ft-red の gojuu の下） =====
 const FB={apiKey:'AIzaSyBCzVyblBmfNQq4XdPHdQppE94gyiYxDkA',databaseURL:'https://ft-red-default-rtdb.asia-southeast1.firebasedatabase.app'};
@@ -1225,7 +1229,7 @@ function vidDone(blob){vidBusy=false;show('vidPanel');
  const nm='gojuuni_'+(GUN.code||resKind)+'.'+vidExt;const file=new File([blob],nm,{type:blob.type});const canShare=!!(navigator.canShare&&navigator.canShare({files:[file]}));
  $('vShare').hidden=!canShare;$('vSave').hidden=false;$('vMsg').textContent=canShare?t('vmade'):t('shareHint');
  const post=()=>vidFrom==='regPanel'?(resKind==='jam'?t('postJam'):t('postSelf')):t(resKind==='hit'?'postHit':'postDodge',{n:GUN.n,f:nick(GUN.f),c:GUN.code,d:GUN.lastD||0,g:GUN.lastG||0});const purl=()=>GUN.code&&vidFrom!=='regPanel'?GAME_URL+'?c='+GUN.code:GAME_URL;
- $('vShare').onclick=async()=>{try{await navigator.share({files:[file],text:post()+'\n'+purl()});}catch(e){}};
+ $('vShare').onclick=async()=>{try{await navigator.share({files:[file],text:post()+'\n'+purl()+(quoteURL()?'\n'+quoteURL():'')});}catch(e){}};
  $('vSave').onclick=()=>{const a=document.createElement('a');a.href=url;a.download=nm;document.body.appendChild(a);a.click();a.remove();};
  $('vX').onclick=()=>openX(post(),purl());}
 
